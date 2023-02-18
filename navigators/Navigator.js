@@ -11,6 +11,8 @@ import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
+import Likes from '../views/Likes';
+import Comments from '../views/Comments';
 
 
 const Tab = createBottomTabNavigator();
@@ -18,7 +20,7 @@ const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
     return (      
-      <Tab.Navigator>
+      <Tab.Navigator >
       <Tab.Screen
         name="Home"
         component={Home}
@@ -31,6 +33,13 @@ const TabScreen = () => {
         component={Upload}
         options={{
           tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Likes"
+        component={Likes}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
         }}
       />
       <Tab.Screen
@@ -55,9 +64,10 @@ const StackScreen = () => {
             component={TabScreen} 
             options={{headerShown:  false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen name="Single" component={Single} /> 
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
+          <Stack.Screen name="Comments" component={Comments} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
