@@ -16,7 +16,7 @@ const doFetch = async (url, options) => {
 
 const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user} = useContext(MainContext);
+  const {update, user, setUpdate} = useContext(MainContext);
 
   const loadMedia = async () => {
     try {
@@ -41,7 +41,7 @@ const useMedia = (myFilesOnly) => {
       console.error('List, loadMedia', error);
     }
   };
-
+  
   useEffect(() => {
     loadMedia();
     // load media when update state changes in main context
@@ -241,4 +241,16 @@ const useFavourite = () => {
   return {postFavourite, getFavouritesByUser,getFavouritesByFileId, deleteFavourite};
 }
 
-export {useMedia, useAuthentication, useUser, useTag, useFavourite};
+const useComment = () => {
+  const getCommentsByFileId = async (fileId) => {
+    try {
+      return await doFetch(baseUrl + '/comments/file/' + fileId);
+      console.log('you pressed comment and it goes to api')
+    } catch (error) {
+      throw new Error('getCommentsByFileId: ' + error.message);
+    };
+  };
+
+  return {getCommentsByFileId};
+}
+export {useMedia, useAuthentication, useUser, useTag, useFavourite, useComment};
