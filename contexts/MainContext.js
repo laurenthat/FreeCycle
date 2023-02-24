@@ -1,23 +1,24 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const MainContext = React.createContext({});
 
 const MainProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] =useState({});
-  const [update, setUpdate] = useState(false);
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
+   const [user, setUser] = useState({});
+   const [update, setUpdate] = useState(false);
 
-  return (
-    <MainContext.Provider 
-      value={{isLoggedIn, setIsLoggedIn, user, setUser, update, setUpdate}}>
-      {props.children}
-    </MainContext.Provider>
-  );
+   return (
+      <MainContext.Provider
+         value={{ isLoggedIn, setIsLoggedIn, user, setUser, update, setUpdate }}
+      >
+         {props.children}
+      </MainContext.Provider>
+   );
 };
 
 MainProvider.propTypes = {
-  children: PropTypes.node,
+   children: PropTypes.node,
 };
 
-export {MainContext, MainProvider};
+export { MainContext, MainProvider };
