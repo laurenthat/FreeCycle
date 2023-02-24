@@ -11,7 +11,6 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import {Image} from '@rneui/base';
 
 const Single = ({route}) => {
-  // console.log(route.params);
   const {
     title,
     description,
@@ -29,13 +28,11 @@ const Single = ({route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const {user} = useContext(MainContext);
   const {getUserById} = useUser();
-  const {getFavouritesByFileId, postFavourite, deleteFavourite} =
-    useFavourite();
+  const {getFavouritesByFileId, postFavourite, deleteFavourite} = useFavourite();
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const owner = await getUserById(userId, token);
-    console.log(owner);
     setOwner(owner);
   };
 
@@ -160,7 +157,7 @@ const Single = ({route}) => {
           <ListItem>
             <Icon name="person" />
             <Text>
-              {owner.username} ({owner.full_name})
+              ({owner.username}) ({owner.full_name})
             </Text>
           </ListItem>
           <ListItem>

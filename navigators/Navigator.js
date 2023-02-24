@@ -13,7 +13,6 @@ import MyFiles from "../views/MyFiles";
 import Modify from "../views/Modify";
 import Likes from "../views/Likes";
 import Comments from "../views/Comments";
-import TopBarNavigator from "./TopBarNavigator";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

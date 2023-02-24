@@ -16,7 +16,7 @@ const doFetch = async (url, options) => {
 
 const useMedia = (myFilesOnly) => {
    const [mediaArray, setMediaArray] = useState([]);
-   const { update, user } = useContext(MainContext);
+   const { update, user, setUpdate } = useContext(MainContext);
 
    const loadMedia = async () => {
       try {
@@ -132,6 +132,7 @@ const useUser = () => {
          throw new Error("checkUser: " + error.message);
       }
    };
+
    const postUser = async (userData) => {
       const options = {
          method: "post",
@@ -166,21 +167,7 @@ const useUser = () => {
       }
    };
 
-   const putUser = async (data, token) => {
-      const options = {
-         method: "put",
-         headers: {
-            "x-access-token": token,
-         },
-         body: JSON.stringify(data),
-      };
-      try {
-         return await doFetch(baseUrl + "users", options);
-      } catch (error) {
-         throw new Error("putProfile:" + error.message);
-      }
-   };
-   return { getUserByToken, postUser, checkUsername, getUserById, putUser };
+   return { getUserByToken, postUser, checkUsername, getUserById };
 };
 
 const useTag = () => {
@@ -262,4 +249,31 @@ const useFavourite = () => {
    };
 };
 
-export { useMedia, useAuthentication, useUser, useTag, useFavourite };
+const useComment = () => {
+   const postComment = async (fileId, token) => {
+      // TODO: implement this
+   };
+
+   const getCommentsByFileId = async (fileId) => {
+      try {
+         return await doFetch(baseUrl + "comments/file/" + fileId);
+         console.log("you pressed comment and it goes to api");
+      } catch (error) {
+         throw new Error("getCommentsByFileId: " + error.message);
+      }
+   };
+
+   const deleteComment = async () => {
+      // TODO: implement this
+   };
+
+   return { postComment, getCommentsByFileId, deleteComment };
+};
+export {
+   useMedia,
+   useAuthentication,
+   useUser,
+   useTag,
+   useFavourite,
+   useComment,
+};
