@@ -39,6 +39,8 @@ const TabScreen = () => {
             name="Profile"
             component={Profile}
             options={{
+               headerShown: false,
+               //  headerTitleAlign: "center",
                tabBarIcon: ({ color }) => <Icon name="person" color={color} />,
             }}
          />
