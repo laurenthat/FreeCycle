@@ -11,7 +11,6 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import {Image} from '@rneui/base';
 
 const Single = ({route}) => {
-  console.log('routeparams', route.params);
   const {
     title,
     description,
@@ -34,7 +33,6 @@ const Single = ({route}) => {
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const owner = await getUserById(userId, token);
-    console.log('getOwner in Single', owner);
     setOwner(owner);
   };
 

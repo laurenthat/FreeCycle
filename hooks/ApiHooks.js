@@ -130,6 +130,7 @@ const useUser = () => {
       throw new Error('checkUser: ' + error.message);
     }
   };
+
   const postUser = async (userData) => {
     const options = {
       method: 'post',
@@ -242,15 +243,24 @@ const useFavourite = () => {
 }
 
 const useComment = () => {
+  const postComment = async (fileId, token) => {
+    // TODO: implement this
+  };
+
+
   const getCommentsByFileId = async (fileId) => {
     try {
-      return await doFetch(baseUrl + '/comments/file/' + fileId);
+      return await doFetch(baseUrl + 'comments/file/' + fileId);
       console.log('you pressed comment and it goes to api')
     } catch (error) {
       throw new Error('getCommentsByFileId: ' + error.message);
     };
   };
 
-  return {getCommentsByFileId};
+  const deleteComment = async () => {
+    // TODO: implement this
+  }
+
+  return {postComment, getCommentsByFileId, deleteComment};
 }
 export {useMedia, useAuthentication, useUser, useTag, useFavourite, useComment};

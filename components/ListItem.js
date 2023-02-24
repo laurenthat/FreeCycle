@@ -10,17 +10,18 @@ import {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useMedia, useUser, useFavourite} from '../hooks/ApiHooks';
+import {useMedia, useUser, useFavourite, useComment} from '../hooks/ApiHooks';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
   const {deleteMedia} = useMedia();
   const item = singleMedia;
-  console.log(item);
+  // console.log(item);
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [userLikesIt, setUserLikesIt] = useState(false);
-  const {getFavouritesByFileId, postFavourite, deleteFavourite, getCommentsByFileId} = useFavourite();
+  const {getFavouritesByFileId, postFavourite, deleteFavourite} = useFavourite();
+  const {getCommentsByFileId} = useComment();
   
   const [owner, setOwner] = useState({});
   const {getUserById} = useUser();
@@ -73,24 +74,22 @@ const ListItem = ({singleMedia, navigation}) => {
   };
 
   const commentFile = () => {
-    console.log('comment pressed');
-    navigation.navigate('Comments')
+    navigation.navigate('Comments', item.file_id)
   }
 
   const getComments = async () => {
     try {
       const comments = await getCommentsByFileId(item.file_id);
-    console.log('comments', comments);
+      setComments(comments);
     } catch (error) {
       console.log(error);
     }
-    
   }
 
   useEffect(() => {
     getOwner();
     getLikes();
-    // getComments();
+    getComments();
   }, []);
 
   // const doDelete = () => {
@@ -136,7 +135,7 @@ const ListItem = ({singleMedia, navigation}) => {
       <Text>{likes.length}</Text>
       <Icon name="chat-bubble-outline" onPress={commentFile} />
       <Text>{comments.length}</Text>
-      <Icon name="bookmark-outline" >15</Icon>
+      <Icon name="bookmark-outline" />
     </Card.Actions>
     <Card.Content>
       <Text variant="bodyMedium">{new Date(item.time_added).toLocaleString('fi-FI')}</Text>
@@ -150,15 +149,18 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
     marginHorizontal:10,
+    // display: 'flex',
+    // flexDirection: 'row',
   },
   image: {
     // paddingHorizontal: 10,
   },
   icon: {
-    flex: 1,
+    // flex: 1,
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingRight: 220,
+    // paddingRight: 220,
   },
 });
 

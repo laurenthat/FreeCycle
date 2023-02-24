@@ -1,22 +1,16 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text} from 'react-native';
+import CommentList from '../components/CommentList'
 
-const Comments = () => {
+const Comments = ({navigation, route}) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Comments</Text>
-    </SafeAreaView>
+    <>
+      <CommentList 
+        navigation={navigation} 
+        route={route}
+      />
+    </>
+    
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
-  },
-});
 
 export default Comments;
