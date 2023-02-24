@@ -11,6 +11,8 @@ import { MainContext } from "../contexts/MainContext";
 import { Icon } from "@rneui/themed";
 import MyFiles from "../views/MyFiles";
 import Modify from "../views/Modify";
+import Likes from "../views/Likes";
+import Comments from "../views/Comments";
 import TopBarNavigator from "./TopBarNavigator";
 
 const Tab = createBottomTabNavigator();
@@ -36,11 +38,19 @@ const TabScreen = () => {
             }}
          />
          <Tab.Screen
+            name="Likes"
+            component={Likes}
+            options={{
+               tabBarIcon: ({ color }) => (
+                  <Icon name="favorite" color={color} />
+               ),
+            }}
+         />
+         <Tab.Screen
             name="Profile"
             component={Profile}
             options={{
                headerShown: false,
-               //  headerTitleAlign: "center",
                tabBarIcon: ({ color }) => <Icon name="person" color={color} />,
             }}
          />
@@ -62,6 +72,7 @@ const StackScreen = () => {
                <Stack.Screen name="Single" component={Single} />
                <Stack.Screen name="MyFiles" component={MyFiles} />
                <Stack.Screen name="Modify" component={Modify} />
+               <Stack.Screen name="Comments" component={Comments} />
             </>
          ) : (
             <Stack.Screen name="Login" component={Login}></Stack.Screen>
