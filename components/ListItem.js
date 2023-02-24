@@ -1,38 +1,52 @@
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import { Avatar, Button, Card, Text} from 'react-native-paper';
+import {Avatar, Card, Text} from 'react-native-paper';
 import {Icon} from '@rneui/themed';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {StyleSheet} from 'react-native';
-
-import {ButtonGroup} from '@rneui/base';
 import {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useMedia, useUser, useFavourite, useComment} from '../hooks/ApiHooks';
+import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
-  const {deleteMedia} = useMedia();
+  // const {deleteMedia} = useMedia();
   const item = singleMedia;
-  // console.log(item);
+  const [avatar, setAvatar] = useState('');
+  const [owner, setOwner] = useState({});
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [userLikesIt, setUserLikesIt] = useState(false);
+  const [userHasAvatar, setUserHasAvatar] = useState(false);
+
   const {getFavouritesByFileId, postFavourite, deleteFavourite} = useFavourite();
   const {getCommentsByFileId} = useComment();
-  
-  const [owner, setOwner] = useState({});
+  const {getFilesByTag} = useTag();
   const {getUserById} = useUser();
-  const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+
   const SubtitleContent = '@' + owner.username;
+  const LeftContent = props => 
+    userHasAvatar ? (
+      <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />    
+    ) : (
+      <Avatar.Icon size={45} icon="account" />
+    )
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const owner = await getUserById(item.user_id, token);
     // console.log("getOwner in listItem", owner);
     setOwner(owner);
+  };
+
+  const loadAvatar = async () => {
+    try {
+      const avatarArray = await getFilesByTag('avatar_' + item.user_id);
+      setAvatar(avatarArray.pop().filename);
+      setUserHasAvatar(true);
+    } catch (error) {
+      console.log('user avatar fetch failed', error.message);
+    }
   };
 
   const getLikes = async () => {
@@ -88,27 +102,10 @@ const ListItem = ({singleMedia, navigation}) => {
 
   useEffect(() => {
     getOwner();
+    loadAvatar();
     getLikes();
     getComments();
   }, []);
-
-  // const doDelete = () => {
-  //   try {
-  //     Alert.alert('Delete', 'this file permanently', [
-  //       {text: 'Cancel'},
-  //       {
-  //         text: 'OK',
-  //         onPress: async () => {
-  //           const token = await AsyncStorage.getItem('userToken');
-  //           const response = await deleteMedia(item.file_id, token);
-  //           response && setUpdate(!update);
-  //         }
-  //       }
-  //     ])
-  //   } catch (error) {
-  //     throw new Error('doDelete: ' + error.message);
-  //   }
-  // }
 
   return (
     <Card style={styles.card}
@@ -141,7 +138,6 @@ const ListItem = ({singleMedia, navigation}) => {
       <Text variant="bodyMedium">{new Date(item.time_added).toLocaleString('fi-FI')}</Text>
     </Card.Content>
   </Card>
-    
   );
 };
 
