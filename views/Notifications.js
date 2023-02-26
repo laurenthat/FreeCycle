@@ -1,10 +1,12 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, Text} from 'react-native';
+import PropTypes from "prop-types";
+import LikeList from '../components/LikeList';
 
-const Likes = () => {
+const Notifications = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Likes</Text>
+      <LikeList />
     </SafeAreaView>
   );
 };
@@ -19,4 +21,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Likes;
+Notifications.propTypes = {
+  navigation: PropTypes.object,
+};
+
+export default Notifications;

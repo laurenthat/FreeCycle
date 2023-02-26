@@ -11,7 +11,7 @@ import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
-import Likes from '../views/Likes';
+import Notifications from '../views/Notifications';
 import Comments from '../views/Comments';
 
 
@@ -36,10 +36,10 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Likes"
-        component={Likes}
+        name="Notifications"
+        component={Notifications}
         options={{
-          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
+          tabBarIcon: ({color}) => <Icon name="notifications" color={color} />,
         }}
       />
       <Tab.Screen
