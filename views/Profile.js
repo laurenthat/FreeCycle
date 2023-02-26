@@ -7,6 +7,7 @@ import TopBarNavigator from "../navigators/TopBarNavigator";
 import { uploadsUrl } from "../utils/variables";
 import { Avatar, Card, Appbar, Menu } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import Modify from "./Modify";
 
 const Profile = ({ navigation }) => {
    const { getFilesByTag } = useTag();
@@ -45,7 +46,7 @@ const Profile = ({ navigation }) => {
          >
             <Menu.Item
                onPress={() => {
-                  navigation.navigate("MyFiles");
+                  navigation.navigate("EditProfile", { user: user });
                   closeMenu();
                }}
                title="Edit Profile"

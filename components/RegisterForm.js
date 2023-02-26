@@ -67,7 +67,6 @@ const RegisterForm = (props) => {
                      onChangeText={onChange}
                      value={value}
                      autoCapitalize="none"
-                     placeholder="Username"
                      errorMessage={errors.username && errors.username.message}
                   />
                )}

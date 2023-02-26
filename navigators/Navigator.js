@@ -13,6 +13,7 @@ import MyFiles from "../views/MyFiles";
 import Modify from "../views/Modify";
 import Likes from "../views/Likes";
 import Comments from "../views/Comments";
+import EditProfile from "../views/EditProfile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -72,6 +73,7 @@ const StackScreen = () => {
                <Stack.Screen name="MyFiles" component={MyFiles} />
                <Stack.Screen name="Modify" component={Modify} />
                <Stack.Screen name="Comments" component={Comments} />
+               <Stack.Screen name="EditProfile" component={EditProfile} />
             </>
          ) : (
             <Stack.Screen name="Login" component={Login}></Stack.Screen>
