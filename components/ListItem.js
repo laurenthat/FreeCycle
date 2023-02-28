@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
 
 const ListItem = ({singleMedia, navigation}) => {
-  const {user, setUpdate, update} = useContext(MainContext);
+  const {user} = useContext(MainContext);
   // const {deleteMedia} = useMedia();
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
@@ -19,18 +19,19 @@ const ListItem = ({singleMedia, navigation}) => {
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [userHasAvatar, setUserHasAvatar] = useState(false);
 
-  const {getFavouritesByFileId, postFavourite, deleteFavourite} = useFavourite();
+  const {getFavouritesByFileId, postFavourite, deleteFavourite} =
+    useFavourite();
   const {getCommentsByFileId} = useComment();
   const {getFilesByTag} = useTag();
   const {getUserById} = useUser();
 
   const SubtitleContent = '@' + owner.username;
-  const LeftContent = props => 
+  const LeftContent = (props) =>
     userHasAvatar ? (
-      <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />    
+      <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
     ) : (
       <Avatar.Icon size={45} icon="account" />
-    )
+    );
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -88,8 +89,8 @@ const ListItem = ({singleMedia, navigation}) => {
   };
 
   const commentFile = () => {
-    navigation.navigate('Comments', item.file_id)
-  }
+    navigation.navigate('Comments', item.file_id);
+  };
 
   const getComments = async () => {
     try {
@@ -98,7 +99,7 @@ const ListItem = ({singleMedia, navigation}) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getOwner();
@@ -108,43 +109,50 @@ const ListItem = ({singleMedia, navigation}) => {
   }, []);
 
   return (
-    <Card style={styles.card}
-      mode='elevated'
+    <Card
+      style={styles.card}
+      mode="elevated"
       onPress={() => {
         navigation.navigate('Single', item);
       }}
     >
-    <Card.Title 
-      title={item.title} 
-      subtitle={SubtitleContent}
-      left={LeftContent} />
-    <Card.Cover style={styles.image} 
-      source={{uri: uploadsUrl + item.thumbnails?.w160}} />
-    <Card.Content>
-      <Text variant="titleMedium">{item.description}</Text>
-    </Card.Content>
-    <Card.Actions style={styles.icon}>
-      {userLikesIt ? (
-        <Icon name="favorite" color="red" onPress={dislikeFile} />      
-      ) : (
-        <Icon name="favorite-border" onPress={likeFile} />
-      )}
-      <Text>{likes.length}</Text>
-      <Icon name="chat-bubble-outline" onPress={commentFile} />
-      <Text>{comments.length}</Text>
-      <Icon name="bookmark-outline" />
-    </Card.Actions>
-    <Card.Content>
-      <Text variant="bodyMedium">{new Date(item.time_added).toLocaleString('fi-FI')}</Text>
-    </Card.Content>
-  </Card>
+      <Card.Title
+        title={item.title}
+        subtitle={SubtitleContent}
+        left={LeftContent}
+      />
+      <Card.Cover
+        style={styles.image}
+        source={{uri: uploadsUrl + item.thumbnails?.w160}}
+      />
+      <Card.Content>
+        <Text variant="titleMedium">{item.description}</Text>
+      </Card.Content>
+      <Card.Actions style={styles.icon}>
+        <Icon name="bookmark-outline" />
+        <Text>{comments.length}</Text>
+        <Icon name="chat-bubble-outline" onPress={commentFile} />
+
+        <Text>{likes.length}</Text>
+        {userLikesIt ? (
+          <Icon name="favorite" color="red" onPress={dislikeFile} />
+        ) : (
+          <Icon name="favorite-border" onPress={likeFile} />
+        )}
+      </Card.Actions>
+      <Card.Content>
+        <Text variant="bodyMedium">
+          {new Date(item.time_added).toLocaleString('fi-FI')}
+        </Text>
+      </Card.Content>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
     margin: 5,
-    marginHorizontal:10,
+    marginHorizontal: 10,
     // display: 'flex',
     // flexDirection: 'row',
   },
@@ -154,8 +162,8 @@ const styles = StyleSheet.create({
   icon: {
     // flex: 1,
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: 'row-reverse',
+    // justifyContent: 'flex-start',
     // paddingRight: 220,
   },
 });

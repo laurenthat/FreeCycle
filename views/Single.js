@@ -28,7 +28,8 @@ const Single = ({route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const {user} = useContext(MainContext);
   const {getUserById} = useUser();
-  const {getFavouritesByFileId, postFavourite, deleteFavourite} = useFavourite();
+  const {getFavouritesByFileId, postFavourite, deleteFavourite} =
+    useFavourite();
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');

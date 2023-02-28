@@ -14,13 +14,12 @@ import Modify from '../views/Modify';
 import Likes from '../views/Likes';
 import Comments from '../views/Comments';
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
-    return (      
-      <Tab.Navigator >
+  return (
+    <Tab.Navigator>
       <Tab.Screen
         name="Home"
         component={Home}
@@ -50,7 +49,7 @@ const TabScreen = () => {
         }}
       />
     </Tab.Navigator>
-    );
+  );
 };
 
 const StackScreen = () => {
@@ -59,22 +58,22 @@ const StackScreen = () => {
     <Stack.Navigator>
       {isLoggedIn ? (
         <>
-          <Stack.Screen 
-            name="Tabs" 
-            component={TabScreen} 
-            options={{headerShown:  false}}
+          <Stack.Screen
+            name="Tabs"
+            component={TabScreen}
+            options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} /> 
+          <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="Comments" component={Comments} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
-      ) }   
+      )}
     </Stack.Navigator>
-    )
-}
+  );
+};
 
 const Navigator = () => {
   return (

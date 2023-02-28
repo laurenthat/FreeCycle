@@ -4,7 +4,6 @@ import {MainContext} from '../contexts/MainContext';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import {Button, Card, Icon, ListItem} from '@rneui/themed';
-import MyFiles from './MyFiles';
 import PropTypes from 'prop-types';
 
 const Profile = ({navigation}) => {
@@ -19,7 +18,6 @@ const Profile = ({navigation}) => {
     } catch (error) {
       console.log('user avatar fetch failed', error.message);
     }
-
   };
 
   useEffect(() => {
@@ -38,20 +36,23 @@ const Profile = ({navigation}) => {
         <Icon name="badge" />
         <ListItem.Title>{user.full_name}</ListItem.Title>
       </ListItem>
-      <Button title="Logout!" onPress={async () => {
-        console.log('Loggin out!');
-        setUser({});
-        setIsLoggedIn(false);
-        try {
-          await AsyncStorage.clear();
-        } catch (error) {
-          console.error('clearing asyncstoreage failed', error);
-        }
-      }}/>
-      <Button 
-        title="My Files" 
+      <Button
+        title="Logout!"
+        onPress={async () => {
+          console.log('Loggin out!');
+          setUser({});
+          setIsLoggedIn(false);
+          try {
+            await AsyncStorage.clear();
+          } catch (error) {
+            console.error('clearing asyncstoreage failed', error);
+          }
+        }}
+      />
+      <Button
+        title="My Files"
         onPress={() => {
-          navigation.navigate('MyFiles')
+          navigation.navigate('MyFiles');
         }}
       />
     </Card>

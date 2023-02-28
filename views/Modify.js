@@ -1,12 +1,7 @@
 import {Button, Card, Input} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {
-  Alert,
-  Keyboard,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
 import {useContext, useRef, useState} from 'react';
 import {useMedia} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -71,7 +66,7 @@ const Modify = ({navigation, route}) => {
           ) : (
             <Card.Image
               source={{
-                uri: uploadsUrl + file.filename
+                uri: uploadsUrl + file.filename,
               }}
             />
           )}
@@ -130,6 +125,7 @@ const Modify = ({navigation, route}) => {
 
 Modify.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default Modify;

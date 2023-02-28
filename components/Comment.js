@@ -18,7 +18,7 @@ const Comment = ({single}) => {
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
   const usernameContent = '@' + owner.username;
-  
+
   const getOwner = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -28,7 +28,7 @@ const Comment = ({single}) => {
       console.log(error);
     }
   };
-    
+
   const getComments = async () => {
     try {
       const comments = await getCommentsByFileId(item.file_id);
@@ -47,7 +47,7 @@ const Comment = ({single}) => {
       console.log('user avatar fetch failed', error.message);
     }
   };
-  
+
   useEffect(() => {
     getOwner();
     getComments();
@@ -57,25 +57,31 @@ const Comment = ({single}) => {
   return (
     <>
       <ListItem bottomDivider>
-      {userHasAvatar ? (
-        <Avatar rounded size={40} 
-          source={{uri: uploadsUrl + avatar}} />    
-      ) : (
-        <Avatar rounded size={40} 
-          icon={{ name: "person", type: "material" }}
-          containerStyle={{ backgroundColor: "#6656a5" }} />
-      )}
-      <ListItem.Content style={styles.allContent}>
-        <ListItem.Content style={styles.firstRow}>
-            <ListItem.Title style={styles.title}>{usernameContent}</ListItem.Title>
-            <Text style={styles.date}>{new Date(item.time_added).toLocaleString('fi-FI')}</Text>
+        {userHasAvatar ? (
+          <Avatar rounded size={40} source={{uri: uploadsUrl + avatar}} />
+        ) : (
+          <Avatar
+            rounded
+            size={40}
+            icon={{name: 'person', type: 'material'}}
+            containerStyle={{backgroundColor: '#6656a5'}}
+          />
+        )}
+        <ListItem.Content style={styles.allContent}>
+          <ListItem.Content style={styles.firstRow}>
+            <ListItem.Title style={styles.title}>
+              {usernameContent}
+            </ListItem.Title>
+            <Text style={styles.date}>
+              {new Date(item.time_added).toLocaleString('fi-FI')}
+            </Text>
+          </ListItem.Content>
+          <ListItem.Content style={styles.secondRow}>
+            <ListItem.Subtitle>{item.comment}</ListItem.Subtitle>
+          </ListItem.Content>
         </ListItem.Content>
-        <ListItem.Content style={styles.secondRow}>
-          <ListItem.Subtitle>{item.comment}</ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem.Content>
       </ListItem>
-</>
+    </>
   );
 };
 
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
   firstRow: {
     display: 'flex',
     flexDirection: 'row',
-    alignContent:'flex-start',
+    alignContent: 'flex-start',
     justifyContent: 'space-between',
   },
   title: {
@@ -99,11 +105,11 @@ const styles = StyleSheet.create({
   },
   secondRow: {
     flex: 1,
-  }
+  },
 });
 
 Comment.propTypes = {
-    single: PropTypes.object,
+  single: PropTypes.object,
 };
 
 export default Comment;

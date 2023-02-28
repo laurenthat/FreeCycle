@@ -41,7 +41,7 @@ const useMedia = (myFilesOnly) => {
       console.error('List, loadMedia', error);
     }
   };
-  
+
   useEffect(() => {
     loadMedia();
     // load media when update state changes in main context
@@ -191,7 +191,7 @@ const useTag = () => {
     } catch (error) {
       throw new Error('postTag: ' + error.message);
     }
-  }
+  };
 
   return {getFilesByTag, postTag};
 };
@@ -222,7 +222,7 @@ const useFavourite = () => {
       return await doFetch(baseUrl + 'favourites/file/' + fileId);
     } catch (error) {
       throw new Error('getFavouritesByFileId: ' + error.message);
-    };
+    }
   };
 
   const deleteFavourite = async (fileId, token) => {
@@ -236,31 +236,35 @@ const useFavourite = () => {
       return await doFetch(baseUrl + 'favourites/file/' + fileId, options);
     } catch (error) {
       throw new Error('deleteFavourite: ' + error.message);
-    };
+    }
   };
 
-  return {postFavourite, getFavouritesByUser,getFavouritesByFileId, deleteFavourite};
-}
+  return {
+    postFavourite,
+    getFavouritesByUser,
+    getFavouritesByFileId,
+    deleteFavourite,
+  };
+};
 
 const useComment = () => {
   const postComment = async (fileId, token) => {
     // TODO: implement this
   };
 
-
   const getCommentsByFileId = async (fileId) => {
     try {
       return await doFetch(baseUrl + 'comments/file/' + fileId);
-      console.log('you pressed comment and it goes to api')
     } catch (error) {
       throw new Error('getCommentsByFileId: ' + error.message);
-    };
+    }
   };
 
   const deleteComment = async () => {
     // TODO: implement this
-  }
+  };
 
   return {postComment, getCommentsByFileId, deleteComment};
-}
+};
+
 export {useMedia, useAuthentication, useUser, useTag, useFavourite, useComment};
