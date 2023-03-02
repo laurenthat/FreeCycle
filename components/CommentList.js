@@ -5,8 +5,8 @@ import {useState, useEffect} from 'react';
 import {useComment} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
 
-const CommentList = ({navigation, route}) => {
-  const fileId = route.params;
+const CommentList = ({route}) => {
+  const {file_id: fileId} = route.params;
   const [comments, setComments] = useState([]);
   const {getCommentsByFileId} = useComment();
 
@@ -21,7 +21,7 @@ const CommentList = ({navigation, route}) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [comments]);
 
   const singleComment = ({item}) => <Comment single={item} />;
 
@@ -35,7 +35,6 @@ const CommentList = ({navigation, route}) => {
 };
 
 CommentList.propTypes = {
-  navigation: PropTypes.object.isRequired,
   route: PropTypes.object,
 };
 

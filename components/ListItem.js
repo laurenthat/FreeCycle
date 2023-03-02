@@ -88,9 +88,9 @@ const ListItem = ({singleMedia, navigation}) => {
     }
   };
 
-  const commentFile = () => {
-    navigation.navigate('Comments', item.file_id);
-  };
+  // const commentFile = () => {
+  //   navigation.navigate('Comments', item.file_id);
+  // };
 
   const getComments = async () => {
     try {
@@ -106,7 +106,7 @@ const ListItem = ({singleMedia, navigation}) => {
     loadAvatar();
     getLikes();
     getComments();
-  }, []);
+  }, [comments]);
 
   return (
     <Card
@@ -131,7 +131,10 @@ const ListItem = ({singleMedia, navigation}) => {
       <Card.Actions style={styles.icon}>
         <Icon name="bookmark-outline" />
         <Text>{comments.length}</Text>
-        <Icon name="chat-bubble-outline" onPress={commentFile} />
+        <Icon
+          name="chat-bubble-outline"
+          // onPress={commentFile}
+        />
 
         <Text>{likes.length}</Text>
         {userLikesIt ? (

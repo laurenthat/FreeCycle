@@ -248,8 +248,20 @@ const useFavourite = () => {
 };
 
 const useComment = () => {
-  const postComment = async (fileId, token) => {
-    // TODO: implement this
+  const postComment = async (data, token) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'comments', options);
+    } catch (error) {
+      throw new Error('postComment: ' + error.message);
+    }
   };
 
   const getCommentsByFileId = async (fileId) => {

@@ -1,16 +1,21 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import PropTypes from 'prop-types';
-import {Text, Card, ListItem, Icon} from '@rneui/themed';
+import {StyleSheet} from 'react-native';
+import {Avatar, Card, Text} from 'react-native-paper';
+// import {Text, Card, ListItem, Icon} from '@rneui/themed';
+import {Icon} from '@rneui/themed';
 import {Video} from 'expo-av';
 import {Modal, ScrollView} from 'react-native';
-import {useFavourite, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useUser, useComment, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {Image} from '@rneui/base';
+import CommentList from '../components/CommentList';
+import CommentForm from '../components/CommentForm';
 
-const Single = ({route}) => {
+const Single = ({navigation, route}) => {
   const {
     title,
     description,
@@ -19,22 +24,45 @@ const Single = ({route}) => {
     user_id: userId,
     media_type: type,
     file_id: fileId,
-    filesize,
   } = route.params;
   const video = useRef(null);
   const [owner, setOwner] = useState({});
   const [likes, setLikes] = useState([]);
+  const [avatar, setAvatar] = useState('');
+  const [comments, setComments] = useState([]);
   const [userLikesIt, setUserLikesIt] = useState(false);
+  const [userHasAvatar, setUserHasAvatar] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const {user} = useContext(MainContext);
+
   const {getUserById} = useUser();
   const {getFavouritesByFileId, postFavourite, deleteFavourite} =
     useFavourite();
+  const {getFilesByTag} = useTag();
+  const {getCommentsByFileId} = useComment();
+
+  const SubtitleContent = '@' + owner.username;
+  const LeftContent = (props) =>
+    userHasAvatar ? (
+      <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
+    ) : (
+      <Avatar.Icon size={45} icon="account" />
+    );
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const owner = await getUserById(userId, token);
     setOwner(owner);
+  };
+
+  const loadAvatar = async () => {
+    try {
+      const avatarArray = await getFilesByTag('avatar_' + userId);
+      setAvatar(avatarArray.pop().filename);
+      setUserHasAvatar(true);
+    } catch (error) {
+      console.log('user avatar fetch failed', error.message);
+    }
   };
 
   const getLikes = async () => {
@@ -62,6 +90,7 @@ const Single = ({route}) => {
       // console.log(error);
     }
   };
+
   const dislikeFile = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -70,6 +99,15 @@ const Single = ({route}) => {
       getLikes();
     } catch (error) {
       // note: you cannot like same file multiple times
+      console.log(error);
+    }
+  };
+
+  const getComments = async () => {
+    try {
+      const comments = await getCommentsByFileId(fileId);
+      setComments(comments);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -103,6 +141,8 @@ const Single = ({route}) => {
   useEffect(() => {
     getOwner();
     getLikes();
+    loadAvatar();
+    getComments();
     unlock();
 
     const orientSub = ScreenOrientation.addOrientationChangeListener((evt) => {
@@ -117,19 +157,19 @@ const Single = ({route}) => {
       ScreenOrientation.removeOrientationChangeListener(orientSub);
       lock();
     };
-  }, []);
+  }, [comments]);
 
   return (
     <>
       <ScrollView>
-        <Card>
-          <Card.Title>{title}</Card.Title>
-          <Card.Divider />
+        <Card style={styles.card} mode="elevated">
+          <Card.Title
+            title={title}
+            subtitle={SubtitleContent}
+            left={LeftContent}
+          />
           {type === 'image' ? (
-            <Card.Image
-              onPress={() => setModalVisible(true)}
-              source={{uri: uploadsUrl + filename}}
-            />
+            <Card.Cover source={{uri: uploadsUrl + filename}} />
           ) : (
             <Video
               ref={video}
@@ -143,32 +183,31 @@ const Single = ({route}) => {
               isLooping
             />
           )}
-          <Card.Divider />
-          {description && (
-            <ListItem>
-              <Text>{description}</Text>
-            </ListItem>
-          )}
-          <ListItem>
-            <Icon name="schedule" />
-            <Text>{new Date(timeAdded).toLocaleString('fi-FI')}</Text>
-            <Icon name="save" />
-            <Text>{(filesize / 1000000).toFixed(2)} MB</Text>
-          </ListItem>
-          <ListItem>
-            <Icon name="person" />
-            <Text>
-              ({owner.username}) ({owner.full_name})
-            </Text>
-          </ListItem>
-          <ListItem>
+          <Card.Content>
+            <Text variant="titleMedium">{description}</Text>
+          </Card.Content>
+          <Card.Actions style={styles.icon}>
+            <Icon name="bookmark-outline" />
+            <Text>{comments.length}</Text>
+            <Icon name="chat-bubble-outline" />
+            <Text>{likes.length}</Text>
             {userLikesIt ? (
               <Icon name="favorite" color="red" onPress={dislikeFile} />
             ) : (
               <Icon name="favorite-border" onPress={likeFile} />
             )}
-            <Text>Total likes: {likes.length}</Text>
-          </ListItem>
+          </Card.Actions>
+          <Card.Content>
+            <Text variant="bodyMedium">
+              {new Date(timeAdded).toLocaleString('fi-FI')}
+            </Text>
+            <CommentForm
+              style={styles.commentForm}
+              navigation={navigation}
+              route={route}
+            />
+            <CommentList route={route} />
+          </Card.Content>
         </Card>
       </ScrollView>
       <Modal
@@ -190,7 +229,19 @@ const Single = ({route}) => {
   );
 };
 
+const styles = StyleSheet.create({
+  card: {
+    margin: 5,
+    marginHorizontal: 10,
+  },
+  icon: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+  },
+});
+
 Single.propTypes = {
+  navigation: PropTypes.object,
   route: PropTypes.object,
 };
 
