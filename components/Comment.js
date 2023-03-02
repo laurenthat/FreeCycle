@@ -1,13 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, StyleSheet} from 'react-native';
-// import {Avatar, ListItem, Text} from '@rneui/themed';
-// import {ListItem, Text} from '@rneui/themed';
-import {useState, useEffect} from 'react';
+import {List, Avatar, Divider} from 'react-native-paper';
 import {useComment, useUser, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import {List, Avatar, Divider} from 'react-native-paper';
 
 const Comment = ({single}) => {
   const item = single;

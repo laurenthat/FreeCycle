@@ -1,9 +1,8 @@
-import React from 'react';
-import Comment from '../components/Comment';
-import {FlatList} from 'react-native';
-import {useState, useEffect} from 'react';
-import {useComment} from '../hooks/ApiHooks';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import {FlatList} from 'react-native';
+import Comment from '../components/Comment';
+import {useComment} from '../hooks/ApiHooks';
 
 const CommentList = ({route}) => {
   const {file_id: fileId} = route.params;

@@ -1,19 +1,17 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {uploadsUrl} from '../utils/variables';
-import PropTypes from 'prop-types';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Modal, ScrollView} from 'react-native';
 import {Avatar, Card, Text} from 'react-native-paper';
-// import {Text, Card, ListItem, Icon} from '@rneui/themed';
+import PropTypes from 'prop-types';
 import {Icon} from '@rneui/themed';
+import {Image} from '@rneui/base';
 import {Video} from 'expo-av';
-import {Modal, ScrollView} from 'react-native';
 import {useFavourite, useUser, useComment, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import {Image} from '@rneui/base';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
+import {uploadsUrl} from '../utils/variables';
 
 const Single = ({navigation, route}) => {
   const {
