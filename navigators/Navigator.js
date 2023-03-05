@@ -11,8 +11,8 @@ import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
-import Likes from '../views/Likes';
-import Comments from '../views/Comments';
+import Notification from '../views/Notification';
+import Search from '../views/Search';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,6 +28,13 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="search" color={color} />,
+        }}
+      />
+      <Tab.Screen
         name="Upload"
         component={Upload}
         options={{
@@ -35,10 +42,10 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Likes"
-        component={Likes}
+        name="Notification"
+        component={Notification}
         options={{
-          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
+          tabBarIcon: ({color}) => <Icon name="notifications" color={color} />,
         }}
       />
       <Tab.Screen
@@ -66,7 +73,6 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
-          <Stack.Screen name="Comments" component={Comments} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>

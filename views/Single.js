@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {StyleSheet, Modal, ScrollView} from 'react-native';
+import {StyleSheet, Modal, View} from 'react-native';
 import {Avatar, Card, Text} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import {Icon} from '@rneui/themed';
@@ -159,7 +159,7 @@ const Single = ({navigation, route}) => {
 
   return (
     <>
-      <ScrollView>
+      <View>
         <Card style={styles.card} mode="elevated">
           <Card.Title
             title={title}
@@ -204,10 +204,12 @@ const Single = ({navigation, route}) => {
               navigation={navigation}
               route={route}
             />
+          </Card.Content>
+          <Card.Content style={{flexGrow: 1}}>
             <CommentList route={route} />
           </Card.Content>
         </Card>
-      </ScrollView>
+      </View>
       <Modal
         visible={modalVisible}
         style={{flex: 1}}
@@ -231,6 +233,7 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
     marginHorizontal: 10,
+    paddingBottom: 40,
   },
   icon: {
     display: 'flex',

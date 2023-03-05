@@ -100,7 +100,7 @@ const ListItem = ({singleMedia, navigation}) => {
     loadAvatar();
     getLikes();
     getComments();
-  }, [comments]);
+  }, []);
 
   return (
     <Card
