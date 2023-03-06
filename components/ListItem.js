@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
 
 const ListItem = ({singleMedia, navigation}) => {
-  const {user} = useContext(MainContext);
+  const {user, update} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
   const [owner, setOwner] = useState({});
@@ -100,7 +100,7 @@ const ListItem = ({singleMedia, navigation}) => {
     loadAvatar();
     getLikes();
     getComments();
-  }, []);
+  }, [update]);
 
   return (
     <Card

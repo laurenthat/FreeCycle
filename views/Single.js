@@ -1,5 +1,10 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {StyleSheet, Modal, View} from 'react-native';
+import {
+  StyleSheet,
+  Modal,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Avatar, Card, Text} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import {Icon} from '@rneui/themed';
@@ -159,72 +164,74 @@ const Single = ({navigation, route}) => {
 
   return (
     <>
-      <View>
-        <Card style={styles.card} mode="elevated">
-          <Card.Title
-            title={title}
-            subtitle={SubtitleContent}
-            left={LeftContent}
-          />
-          {type === 'image' ? (
-            <Card.Cover source={{uri: uploadsUrl + filename}} />
-          ) : (
-            <Video
-              ref={video}
-              source={{uri: uploadsUrl + filename}}
-              style={{width: '100%', height: 200}}
-              resizeMode="cover"
-              useNativeControls
-              onError={(error) => {
-                console.log(error);
-              }}
-              isLooping
+      <KeyboardAvoidingView style={{flex: 1}} behavior="position">
+        <ScrollView>
+          <Card style={styles.card} mode="elevated">
+            <Card.Title
+              title={title}
+              subtitle={SubtitleContent}
+              left={LeftContent}
             />
-          )}
-          <Card.Content>
-            <Text variant="titleMedium">{description}</Text>
-          </Card.Content>
-          <Card.Actions style={styles.icon}>
-            <Icon name="bookmark-outline" />
-            <Text>{comments.length}</Text>
-            <Icon name="chat-bubble-outline" />
-            <Text>{likes.length}</Text>
-            {userLikesIt ? (
-              <Icon name="favorite" color="red" onPress={dislikeFile} />
+            {type === 'image' ? (
+              <Card.Cover source={{uri: uploadsUrl + filename}} />
             ) : (
-              <Icon name="favorite-border" onPress={likeFile} />
+              <Video
+                ref={video}
+                source={{uri: uploadsUrl + filename}}
+                style={{width: '100%', height: 200}}
+                resizeMode="cover"
+                useNativeControls
+                onError={(error) => {
+                  console.log(error);
+                }}
+                isLooping
+              />
             )}
-          </Card.Actions>
-          <Card.Content>
-            <Text variant="bodyMedium">
-              {new Date(timeAdded).toLocaleString('fi-FI')}
-            </Text>
-            <CommentForm
-              style={styles.commentForm}
-              navigation={navigation}
-              route={route}
-            />
-          </Card.Content>
-          <Card.Content style={{flexGrow: 1}}>
-            <CommentList route={route} />
-          </Card.Content>
-        </Card>
-      </View>
-      <Modal
-        visible={modalVisible}
-        style={{flex: 1}}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-        supportedOrientations={['portrait', 'landscape']}
-      >
-        <Image
-          resizeMode="contain"
-          onPress={() => setModalVisible(false)}
-          style={{height: '100%'}}
-          source={{uri: uploadsUrl + filename}}
-        />
-      </Modal>
+            <Card.Content>
+              <Text variant="titleMedium">{description}</Text>
+            </Card.Content>
+            <Card.Actions style={styles.icon}>
+              <Icon name="bookmark-outline" />
+              <Text>{comments.length}</Text>
+              <Icon name="chat-bubble-outline" />
+              <Text>{likes.length}</Text>
+              {userLikesIt ? (
+                <Icon name="favorite" color="red" onPress={dislikeFile} />
+              ) : (
+                <Icon name="favorite-border" onPress={likeFile} />
+              )}
+            </Card.Actions>
+            <Card.Content>
+              <Text variant="bodyMedium">
+                {new Date(timeAdded).toLocaleString('fi-FI')}
+              </Text>
+              <CommentForm
+                style={styles.commentForm}
+                navigation={navigation}
+                route={route}
+              />
+            </Card.Content>
+            <Card.Content style={{flexGrow: 1}}>
+              <CommentList route={route} />
+            </Card.Content>
+          </Card>
+        </ScrollView>
+        <Modal
+          visible={modalVisible}
+          style={{flex: 1}}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+          supportedOrientations={['portrait', 'landscape']}
+        >
+          <Image
+            resizeMode="contain"
+            onPress={() => setModalVisible(false)}
+            style={{height: '100%'}}
+            source={{uri: uploadsUrl + filename}}
+          />
+        </Modal>
+      </KeyboardAvoidingView>
     </>
   );
 };
@@ -233,7 +240,6 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
     marginHorizontal: 10,
-    paddingBottom: 40,
   },
   icon: {
     display: 'flex',

@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -58,6 +59,79 @@ const TabScreen = () => {
     </Tab.Navigator>
   );
 };
+
+// const Tabs = createBottomTabNavigator(
+//   {
+//     Profile: {
+//       screen: Profile,
+//       navigationOptions: {
+//         title: 'Profile',
+//         tabBarLabel: 'Profile',
+//         tabBarIcon: ({tintColor}) => (
+//           <Icon
+//             name="ios-settings-outline"
+//             type="ionicon"
+//             size={33}
+//             color={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//     Charities: {
+//       screen: Upload,
+//       navigationOptions: {
+//         title: 'Browse',
+//         tabBarLabel: 'Browse',
+//         tabBarIcon: ({tintColor}) => (
+//           <View
+//             style={{
+//               height: 80,
+//               width: 80,
+//               borderRadius: 100,
+//               backgroundColor: '#FE6D64',
+//               paddingTop: 15,
+//             }}
+//           >
+//             <Icon
+//               name="ios-heart-outline"
+//               type="ionicon"
+//               size={45}
+//               color={tintColor}
+//             />
+//           </View>
+//         ),
+//       },
+//     },
+//     Account: {
+//       screen: Home,
+//       navigationOptions: {
+//         title: 'Account',
+//         tabBarLabel: 'Account',
+//         tabBarIcon: ({tintColor}) => (
+//           <Icon
+//             name="connectdevelop"
+//             type="font-awesome"
+//             size={25}
+//             color={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//   },
+//   {
+//     tabBarOptions: {
+//       activeTintColor: '#84E1BF',
+//       inactiveTintColor: 'white',
+//       labelStyle: {
+//         fontSize: 12,
+//       },
+//       style: {
+//         backgroundColor: '#283940',
+//       },
+//       showLabel: false,
+//     },
+//   }
+// );
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {FlatList} from 'react-native';
 import Comment from '../components/Comment';
 import {useComment} from '../hooks/ApiHooks';
 
@@ -22,14 +21,15 @@ const CommentList = ({route}) => {
     getComments();
   }, [comments]);
 
-  const singleComment = ({item}) => <Comment single={item} />;
-
   return (
-    <FlatList
-      data={comments}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={singleComment}
-    />
+    <>
+      {comments
+        .slice(0)
+        .reverse()
+        .map((comment, index) => (
+          <Comment key={index} single={comment} />
+        ))}
+    </>
   );
 };
 
