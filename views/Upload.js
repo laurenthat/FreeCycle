@@ -29,13 +29,14 @@ const Upload = ({navigation}) => {
     handleSubmit,
     formState: {errors},
     trigger,
-    reset,
   } = useForm({
     defaultValues: {title: '', description: ''},
     mode: 'onChange',
   });
 
-  const defaultAvatar = require('../assets/user_icon.png');
+  // const defaultAvatar = require('../assets/user_icon.png');
+  const defaultAvatar =
+    'https://img.icons8.com/pastel-glyph/512/FAB005/plus--v1.png';
 
   const uploadFile = async (data) => {
     setLoading(true);
@@ -134,12 +135,9 @@ const Upload = ({navigation}) => {
             />
           ) : (
             <Avatar
-              source={
-                //   {
-                //   uri: mediafile.uri || 'https://placekitten.com/g/200/300',
-                // }
-                mediafile ? {uri: mediafile.uri} : defaultAvatar
-              }
+              source={{
+                uri: mediafile.uri || defaultAvatar,
+              }}
               rounded
               avatarStyle={{
                 borderWidth: 5,

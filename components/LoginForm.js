@@ -54,7 +54,7 @@ const LoginForm = () => {
         control={control}
         rules={{
           required: {
-            // value: true,
+            value: true,
             message: 'password is required',
           },
         }}
