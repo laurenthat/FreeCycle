@@ -16,7 +16,7 @@ const doFetch = async (url, options) => {
 
 const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user, setUpdate} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   const loadMedia = async () => {
     try {
@@ -272,7 +272,6 @@ const useComment = () => {
   const getCommentsByFileId = async (fileId) => {
     try {
       return await doFetch(baseUrl + 'comments/file/' + fileId);
-      console.log('you pressed comment and it goes to api');
     } catch (error) {
       throw new Error('getCommentsByFileId: ' + error.message);
     }

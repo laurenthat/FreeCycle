@@ -1,7 +1,14 @@
-import {Button, Card, Input} from '@rneui/themed';
+import {Card, TextInput, Button} from 'react-native-paper';
+import {Avatar, Accessory} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {useCallback, useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -30,7 +37,6 @@ const Upload = ({navigation}) => {
   });
 
   const uploadFile = async (data) => {
-    // create form data and post it
     setLoading(true);
     const formData = new FormData();
     formData.append('title', data.title);
@@ -99,26 +105,21 @@ const Upload = ({navigation}) => {
     }
   };
 
-  const resetForm = () => {
-    setMediafile({});
-    reset();
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        console.log('leaving');
-        resetForm();
-      };
-    }, [])
-  );
-
   console.log('tupe', mediafile.type);
 
   return (
     <ScrollView>
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
-        <Card>
+        {/* <Card> */}
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+          }}
+        >
           {mediafile.type === 'video' ? (
             <Video
               ref={video}
@@ -131,13 +132,38 @@ const Upload = ({navigation}) => {
               }}
             />
           ) : (
-            <Card.Image
+            <Avatar
               source={{
                 uri: mediafile.uri || 'https://placekitten.com/g/200/300',
               }}
+              rounded
+              avatarStyle={{
+                borderWidth: 5,
+                borderBottomLeftRadius: 75,
+                borderBottomRightRadius: 75,
+                borderTopRightRadius: 75,
+                borderTopLeftRadius: 75,
+                borderColor: 'orange',
+              }}
+              title={'bla'}
+              titleStyle={{}}
+              size={150}
               onPress={pickFile}
-            />
+            >
+              <Accessory size={20} />
+            </Avatar>
           )}
+        </View>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            height: '100%',
+            padding: 20,
+          }}
+        >
           <Controller
             control={control}
             rules={{
@@ -151,11 +177,13 @@ const Upload = ({navigation}) => {
               },
             }}
             render={({field: {onChange, onBlur, value}}) => (
-              <Input
-                placeholder="Title"
+              <TextInput
+                mode="outlined"
+                label="What are you giving away?"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                style={{width: '100%'}}
                 errorMessage={errors.title && errors.title.message}
               />
             )}
@@ -170,25 +198,39 @@ const Upload = ({navigation}) => {
               },
             }}
             render={({field: {onChange, onBlur, value}}) => (
-              <Input
-                placeholder="Description"
+              <TextInput
+                editable
+                multiline
+                mode="outlined"
+                label="Describe the item you're giving away."
+                numberOfLines={10}
+                maxLength={40}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                style={{
+                  width: '100%',
+                  marginTop: '10%',
+                }}
                 errorMessage={errors.description && errors.description.message}
               />
             )}
             name="description"
           />
-          <Button title="Pick a file" onPress={pickFile} />
+
+          {/* </View> */}
+          {/* <Button title="Pick a file" onPress={pickFile} /> */}
           <Button
             loading={loading}
             disabled={!mediafile.uri || errors.title || errors.description}
-            title="Upload"
+            style={{width: '90%', marginTop: '10%'}}
+            mode="contained"
             onPress={handleSubmit(uploadFile)}
-          />
-          <Button title={'Reset'} onPress={resetForm} type="outline" />
-        </Card>
+          >
+            Upload advertisment
+          </Button>
+        </View>
+        {/* </Card> */}
       </TouchableOpacity>
     </ScrollView>
   );

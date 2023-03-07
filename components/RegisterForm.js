@@ -1,7 +1,7 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Button, Text, Input} from '@rneui/themed';
+import {Card, Button, Input} from '@rneui/themed';
 import {ScrollView} from 'react-native';
 
 const RegisterForm = (props) => {

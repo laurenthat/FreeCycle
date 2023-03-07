@@ -16,7 +16,6 @@ const Profile = ({navigation}) => {
   const [avatar, setAvatar] = useState([]);
   const windowWidth = Dimensions.get('window').width;
   const [visible, setVisible] = React.useState(false);
-  const {update, setUpdate} = useContext(MainContext);
   const {postMedia} = useMedia();
   const {postTag} = useTag();
 
