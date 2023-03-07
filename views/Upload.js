@@ -1,4 +1,4 @@
-import {Card, TextInput, Button} from 'react-native-paper';
+import {TextInput, Button} from 'react-native-paper';
 import {Avatar, Accessory} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
@@ -10,11 +10,10 @@ import {
   View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import {useCallback, useContext, useRef, useState} from 'react';
+import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {useFocusEffect} from '@react-navigation/native';
 import {appId} from '../utils/variables';
 import {Video} from 'expo-av';
 
@@ -35,6 +34,8 @@ const Upload = ({navigation}) => {
     defaultValues: {title: '', description: ''},
     mode: 'onChange',
   });
+
+  const defaultAvatar = require('../assets/user_icon.png');
 
   const uploadFile = async (data) => {
     setLoading(true);
@@ -133,9 +134,12 @@ const Upload = ({navigation}) => {
             />
           ) : (
             <Avatar
-              source={{
-                uri: mediafile.uri || 'https://placekitten.com/g/200/300',
-              }}
+              source={
+                //   {
+                //   uri: mediafile.uri || 'https://placekitten.com/g/200/300',
+                // }
+                mediafile ? {uri: mediafile.uri} : defaultAvatar
+              }
               rounded
               avatarStyle={{
                 borderWidth: 5,
@@ -145,7 +149,6 @@ const Upload = ({navigation}) => {
                 borderTopLeftRadius: 75,
                 borderColor: 'orange',
               }}
-              title={'bla'}
               titleStyle={{}}
               size={150}
               onPress={pickFile}

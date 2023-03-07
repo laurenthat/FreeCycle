@@ -13,16 +13,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
-  const [avatar, setAvatar] = useState([]);
+  const [avatar, setAvatar] = useState('');
   const windowWidth = Dimensions.get('window').width;
   const [visible, setVisible] = React.useState(false);
   const {postMedia} = useMedia();
   const {postTag} = useTag();
 
+  const defaultAvatar = 'https://robohash.org/honey?set=set3';
+
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar_' + user.user_id);
-      setAvatar(avatarArray.pop().filename);
+      if (avatarArray.length > 0) {
+        setAvatar(avatarArray[0].filename);
+      }
     } catch (error) {
       console.log('user avatar fetch failed', error.message);
     }
@@ -124,7 +128,9 @@ const Profile = ({navigation}) => {
         }}
       >
         <Avatar
-          source={{uri: uploadsUrl + avatar}}
+          source={{
+            uri: avatar ? uploadsUrl + avatar : defaultAvatar,
+          }}
           rounded
           size={120}
           onPress={modifyAvatar}
