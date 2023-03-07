@@ -1,17 +1,6 @@
-import React, {useContext} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {MainContext} from '../contexts/MainContext';
-import {
-  Button,
-  Card,
-  Icon,
-  ListItem,
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-} from '@rneui/themed';
+import {Text} from '@rneui/themed';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 
@@ -46,10 +35,29 @@ const Tab = createMaterialTopTabNavigator();
 
 const TopBarNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="My posts" component={MyPosts} />
-      <Tab.Screen name="Likes" component={Likes} />
-      <Tab.Screen name="Bookmarks" component={Bookmarks} />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {fontSize: 12},
+        tabBarItemStyle: {borderColor: '#FDAA5E'},
+        tabBarPressColor: '#FDAA5E',
+        // tabBarStyle: {backgroundColor: 'powderblue'},
+      }}
+    >
+      <Tab.Screen
+        name="My posts"
+        component={MyPosts}
+        options={{tabBarLabel: 'Home'}}
+      />
+      <Tab.Screen
+        name="Likes"
+        component={Likes}
+        options={{tabBarLabel: 'Likes'}}
+      />
+      <Tab.Screen
+        name="Bookmarks"
+        component={Bookmarks}
+        options={{tabBarLabel: 'Bookmarks'}}
+      />
     </Tab.Navigator>
   );
 };

@@ -36,7 +36,7 @@ const Upload = ({navigation}) => {
 
   // const defaultAvatar = require('../assets/user_icon.png');
   const defaultAvatar =
-    'https://img.icons8.com/pastel-glyph/512/FAB005/plus--v1.png';
+    'https://img.icons8.com/sf-regular/480/FDAA5E/plus-math.png';
 
   const uploadFile = async (data) => {
     setLoading(true);

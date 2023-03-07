@@ -9,8 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
 
 const ListItem = ({singleMedia, navigation}) => {
-  const {user, setUpdate, update} = useContext(MainContext);
-  // const {deleteMedia} = useMedia();
+  const {user, update} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
   const [owner, setOwner] = useState({});
@@ -36,7 +35,6 @@ const ListItem = ({singleMedia, navigation}) => {
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const owner = await getUserById(item.user_id, token);
-    // console.log("getOwner in listItem", owner);
     setOwner(owner);
   };
 
@@ -88,10 +86,6 @@ const ListItem = ({singleMedia, navigation}) => {
     }
   };
 
-  const commentFile = () => {
-    navigation.navigate('Comments', item.file_id);
-  };
-
   const getComments = async () => {
     try {
       const comments = await getCommentsByFileId(item.file_id);
@@ -106,7 +100,7 @@ const ListItem = ({singleMedia, navigation}) => {
     loadAvatar();
     getLikes();
     getComments();
-  }, []);
+  }, [update]);
 
   return (
     <Card
@@ -121,23 +115,20 @@ const ListItem = ({singleMedia, navigation}) => {
         subtitle={SubtitleContent}
         left={LeftContent}
       />
-      <Card.Cover
-        style={styles.image}
-        source={{uri: uploadsUrl + item.thumbnails?.w160}}
-      />
+      <Card.Cover source={{uri: uploadsUrl + item.thumbnails?.w160}} />
       <Card.Content>
         <Text variant="titleMedium">{item.description}</Text>
       </Card.Content>
       <Card.Actions style={styles.icon}>
+        <Icon name="bookmark-outline" />
+        <Text>{comments.length}</Text>
+        <Icon name="chat-bubble-outline" />
+        <Text>{likes.length}</Text>
         {userLikesIt ? (
           <Icon name="favorite" color="red" onPress={dislikeFile} />
         ) : (
           <Icon name="favorite-border" onPress={likeFile} />
         )}
-        <Text>{likes.length}</Text>
-        <Icon name="chat-bubble-outline" onPress={commentFile} />
-        <Text>{comments.length}</Text>
-        <Icon name="bookmark-outline" />
       </Card.Actions>
       <Card.Content>
         <Text variant="bodyMedium">
@@ -152,18 +143,10 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
     marginHorizontal: 10,
-    // display: 'flex',
-    // flexDirection: 'row',
-  },
-  image: {
-    // paddingHorizontal: 10,
   },
   icon: {
-    // flex: 1,
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    // paddingRight: 220,
+    flexDirection: 'row-reverse',
   },
 });
 

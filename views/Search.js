@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, Text} from 'react-native';
 
-const Likes = () => {
+const Search = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Likes</Text>
+      <Text>Search</Text>
     </SafeAreaView>
   );
 };
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Likes;
+export default Search;
