@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const CustomTabBarButton = ({children, onPress}) => (
+const CustomTabBarButton = ({onPress, children}) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
 });
 
 Navigator.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
+  onPress: PropTypes.func,
 };
 
 export default Navigator;
