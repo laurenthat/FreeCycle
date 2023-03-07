@@ -16,6 +16,7 @@ import Notification from '../views/Notification';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import EditProfile from '../views/EditProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
