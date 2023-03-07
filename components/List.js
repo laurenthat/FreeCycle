@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 import {useMedia} from '../hooks/ApiHooks';
 import ListItem from './ListItem';
 import PropTypes from 'prop-types';

@@ -1,12 +1,10 @@
-import React from 'react';
-import Comment from '../components/Comment';
-import {FlatList} from 'react-native';
-import {useState, useEffect} from 'react';
-import {useComment} from '../hooks/ApiHooks';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import Comment from '../components/Comment';
+import {useComment} from '../hooks/ApiHooks';
 
-const CommentList = ({navigation, route}) => {
-  const fileId = route.params;
+const CommentList = ({route}) => {
+  const {file_id: fileId} = route.params;
   const [comments, setComments] = useState([]);
   const {getCommentsByFileId} = useComment();
 
@@ -21,21 +19,22 @@ const CommentList = ({navigation, route}) => {
 
   useEffect(() => {
     getComments();
-  }, []);
-
-  const singleComment = ({item}) => <Comment single={item} />;
+  }, [comments]);
 
   return (
-    <FlatList
-      data={comments}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={singleComment}
-    />
+    <>
+      {comments
+        .slice(0)
+        .reverse()
+        .map((comment, index) => (
+          <Comment key={index} single={comment} />
+        ))}
+    </>
   );
 };
 
 CommentList.propTypes = {
-  navigation: PropTypes.object.isRequired,
+  route: PropTypes.object,
 };
 
 export default CommentList;

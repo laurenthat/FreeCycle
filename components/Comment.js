@@ -1,10 +1,9 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Avatar, ListItem, Text} from '@rneui/themed';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+import {View, Text, StyleSheet} from 'react-native';
+import {List, Avatar, Divider} from 'react-native-paper';
 import {useComment, useUser, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 
 const Comment = ({single}) => {
@@ -17,7 +16,21 @@ const Comment = ({single}) => {
   const {getCommentsByFileId} = useComment();
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
-  const usernameContent = '@' + owner.username;
+
+  const firstRow = (props) => (
+    <View style={styles.firstRow}>
+      <Text>{'@' + owner.username}</Text>
+      <Text style={styles.date}>
+        {new Date(item.time_added).toLocaleString('fi-FI')}
+      </Text>
+    </View>
+  );
+  const leftContent = (props) =>
+    userHasAvatar ? (
+      <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
+    ) : (
+      <Avatar.Icon size={45} icon="account" />
+    );
 
   const getOwner = async () => {
     try {
@@ -56,36 +69,22 @@ const Comment = ({single}) => {
 
   return (
     <>
-      <ListItem bottomDivider>
-        {userHasAvatar ? (
-          <Avatar rounded size={40} source={{uri: uploadsUrl + avatar}} />
-        ) : (
-          <Avatar
-            rounded
-            size={40}
-            icon={{name: 'person', type: 'material'}}
-            containerStyle={{backgroundColor: '#6656a5'}}
-          />
-        )}
-        <ListItem.Content style={styles.allContent}>
-          <ListItem.Content style={styles.firstRow}>
-            <ListItem.Title style={styles.title}>
-              {usernameContent}
-            </ListItem.Title>
-            <Text style={styles.date}>
-              {new Date(item.time_added).toLocaleString('fi-FI')}
-            </Text>
-          </ListItem.Content>
-          <ListItem.Content style={styles.secondRow}>
-            <ListItem.Subtitle>{item.comment}</ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem.Content>
-      </ListItem>
+      <List.Item
+        style={styles.list}
+        title={firstRow}
+        description={item.comment}
+        descriptionNumberOfLines="7"
+        left={leftContent}
+      />
+      <Divider />
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  list: {
+    paddingRight: 16,
+  },
   avatar: {
     alignSelf: 'flex-start',
   },
@@ -99,12 +98,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'flex-start',
     justifyContent: 'space-between',
-  },
-  title: {
-    flex: 1,
-  },
-  secondRow: {
-    flex: 1,
   },
 });
 
