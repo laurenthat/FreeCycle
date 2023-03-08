@@ -17,6 +17,7 @@ import Notification from '../views/Notification';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import EditPost from '../views/EditPost';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -116,6 +117,7 @@ const StackScreen = () => {
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="EditPost" component={EditPost} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
