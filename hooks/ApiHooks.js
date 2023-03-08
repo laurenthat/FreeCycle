@@ -27,7 +27,6 @@ const useMedia = (myFilesOnly) => {
       if (myFilesOnly) {
         json = json.filter((file) => file.user_id === user.user_id);
       }
-
       json.reverse();
 
       const media = await Promise.all(
@@ -92,7 +91,7 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
-  return {mediaArray, postMedia, deleteMedia, putMedia};
+  return {mediaArray, postMedia, deleteMedia, putMedia, loadMedia};
 };
 
 const useAuthentication = () => {
@@ -231,9 +230,16 @@ const useFavourite = () => {
   };
 
   const getFavouritesByUser = async (token) => {
-    // TODO: implement this
+    const options = {
+      method: 'get',
+      headers: {'x-access-token': token},
+    };
+    try {
+      return await doFetch(baseUrl + 'favourites', options);
+    } catch (error) {
+      throw new Error('getFavouritesByUser: ' + error.message);
+    }
   };
-
   const getFavouritesByFileId = async (fileId) => {
     try {
       return await doFetch(baseUrl + 'favourites/file/' + fileId);

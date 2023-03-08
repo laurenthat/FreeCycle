@@ -4,9 +4,7 @@ import {
   Avatar,
   Card,
   Text,
-  Button,
   IconButton,
-  List,
   Menu,
   Divider,
 } from 'react-native-paper';
@@ -60,12 +58,32 @@ const ListItem = ({singleMedia, navigation}) => {
             visible={visible}
             onDismiss={closeMenu}
             anchor={
-              <IconButton icon="dots-vertical" size={30} onPress={openMenu} />
+              <IconButton icon="dots-vertical" size={25} onPress={openMenu} />
             }
           >
             <Menu.Item onPress={editPost} title="Edit" />
             <Divider />
-            <Menu.Item onPress={deletePost} title="Delete" />
+            <Menu.Item
+              onPress={async () => {
+                try {
+                  Alert.alert('Delete', 'this file permanently', [
+                    {text: 'Cancel'},
+                    {
+                      text: 'OK',
+                      onPress: async () => {
+                        const token = await AsyncStorage.getItem('userToken');
+                        const response = await deleteMedia(item.file_id, token);
+                        response && setUpdate(!update);
+                        closeMenu();
+                      },
+                    },
+                  ]);
+                } catch (error) {
+                  throw new Error('doDelete: ' + error.message);
+                }
+              }}
+              title="Delete"
+            />
           </Menu>
         )}
       </>
@@ -74,24 +92,6 @@ const ListItem = ({singleMedia, navigation}) => {
 
   const editPost = () => {
     navigation.navigate('EditPost', item);
-  };
-
-  const deletePost = () => {
-    try {
-      Alert.alert('Delete', 'this file permanently', [
-        {text: 'Cancel'},
-        {
-          text: 'OK',
-          onPress: async () => {
-            const token = await AsyncStorage.getItem('userToken');
-            const response = await deleteMedia(item.file_id, token);
-            response && setUpdate(!update);
-          },
-        },
-      ]);
-    } catch (error) {
-      throw new Error('doDelete: ' + error.message);
-    }
   };
 
   const getOwner = async () => {

@@ -14,7 +14,6 @@ const MyPosts = ({navigation}) => {
 MyPosts.propTypes = {
   navigation: PropTypes.object,
 };
-
 const Likes = () => {
   return (
     <>
