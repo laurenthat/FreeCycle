@@ -2,18 +2,16 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, StyleSheet} from 'react-native';
 import {List, Avatar, Divider} from 'react-native-paper';
-import {useComment, useUser, useTag} from '../hooks/ApiHooks';
+import {useUser, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {uploadsUrl} from '../utils/variables';
 
 const Comment = ({single}) => {
   const item = single;
   const [avatar, setAvatar] = useState('');
-  const [comments, setComments] = useState([]);
   const [owner, setOwner] = useState({});
   const [userHasAvatar, setUserHasAvatar] = useState(false);
 
-  const {getCommentsByFileId} = useComment();
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
 
@@ -42,15 +40,6 @@ const Comment = ({single}) => {
     }
   };
 
-  const getComments = async () => {
-    try {
-      const comments = await getCommentsByFileId(item.file_id);
-      setComments(comments);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar_' + item.user_id);
@@ -63,7 +52,6 @@ const Comment = ({single}) => {
 
   useEffect(() => {
     getOwner();
-    getComments();
     loadAvatar();
   }, []);
 
