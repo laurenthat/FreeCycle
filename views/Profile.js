@@ -24,9 +24,9 @@ const Profile = ({navigation}) => {
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar_' + user.user_id);
-      if (avatarArray.length > 0) {
-        setAvatar(avatarArray[0].filename);
-      }
+      // if (avatarArray.length > 0) {
+      setAvatar(avatarArray.pop().filename);
+      // }
     } catch (error) {
       console.log('user avatar fetch failed', error.message);
     }
