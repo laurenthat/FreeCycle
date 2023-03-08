@@ -7,7 +7,7 @@ const MainProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [update, setUpdate] = useState(false);
-  const [avatar, setAvatar] = useState();
+  const [advertTag, setAdvertTag] = useState();
 
   return (
     <MainContext.Provider
@@ -18,6 +18,8 @@ const MainProvider = (props) => {
         setUser,
         update,
         setUpdate,
+        advertTag,
+        setAdvertTag,
       }}
     >
       {props.children}
