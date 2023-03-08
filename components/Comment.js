@@ -61,7 +61,7 @@ const Comment = ({single}) => {
         style={styles.list}
         title={firstRow}
         description={item.comment}
-        descriptionNumberOfLines="7"
+        descriptionNumberOfLines={7}
         left={leftContent}
       />
       <Divider />
