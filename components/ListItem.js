@@ -91,7 +91,7 @@ const ListItem = ({singleMedia, navigation}) => {
   };
 
   const editPost = () => {
-    navigation.navigate('EditPost', item);
+    navigation.navigate('EditPost', {file: item});
   };
 
   const getOwner = async () => {

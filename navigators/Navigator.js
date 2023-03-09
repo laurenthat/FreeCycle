@@ -11,13 +11,12 @@ import Upload from '../views/Upload';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
-import EditProfile from '../views/EditProfile';
 import Notification from '../views/Notification';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import EditPost from '../views/EditPost';
+import EditProfile from '../views/EditProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -115,7 +114,6 @@ const StackScreen = () => {
           />
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyFiles" component={MyFiles} />
-          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="EditPost" component={EditPost} />
         </>
