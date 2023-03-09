@@ -240,6 +240,7 @@ const useFavourite = () => {
       throw new Error('getFavouritesByUser: ' + error.message);
     }
   };
+
   const getFavouritesByFileId = async (fileId) => {
     try {
       return await doFetch(baseUrl + 'favourites/file/' + fileId);

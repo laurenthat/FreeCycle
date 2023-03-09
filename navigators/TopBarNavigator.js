@@ -3,6 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {Text} from '@rneui/themed';
 import List from '../components/List';
 import PropTypes from 'prop-types';
+import Like from '../components/Like';
 
 const MyPosts = ({navigation}) => {
   return (
@@ -14,10 +15,11 @@ const MyPosts = ({navigation}) => {
 MyPosts.propTypes = {
   navigation: PropTypes.object,
 };
-const Likes = () => {
+
+const Likes = ({navigation}) => {
   return (
     <>
-      <Text>My likes</Text>
+      <Like navigation={navigation} />
     </>
   );
 };
