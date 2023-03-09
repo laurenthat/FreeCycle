@@ -14,10 +14,10 @@ const MyPosts = ({navigation}) => {
 MyPosts.propTypes = {
   navigation: PropTypes.object,
 };
-const Likes = () => {
+const Likes = ({navigation}) => {
   return (
     <>
-      <Text>My likes</Text>
+      <Text>Likes</Text>
     </>
   );
 };
@@ -45,7 +45,7 @@ const TopBarNavigator = () => {
       <Tab.Screen
         name="My posts"
         component={MyPosts}
-        options={{tabBarLabel: 'Home'}}
+        options={{tabBarLabel: 'My Posts'}}
       />
       <Tab.Screen
         name="Likes"

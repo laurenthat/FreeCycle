@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {appId, baseUrl} from '../utils/variables';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -32,6 +33,7 @@ const useMedia = (myFilesOnly) => {
       const media = await Promise.all(
         json.map(async (file) => {
           const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
+          // console.log('what are you getting?', fileResponse);
           return await fileResponse.json();
         })
       );
@@ -212,7 +214,10 @@ const useTag = () => {
   return {getFilesByTag, postTag};
 };
 
-const useFavourite = () => {
+const useFavourite = (token) => {
+  const [favouriteArray, setFavouriteArray] = useState([]);
+  const {update, user} = useContext(MainContext);
+
   const postFavourite = async (fileId, token) => {
     const options = {
       method: 'post',
@@ -235,11 +240,31 @@ const useFavourite = () => {
       headers: {'x-access-token': token},
     };
     try {
+      // const token = await AsyncStorage.getItem('userToken');
+
+      // const json = await useTag().getFilesByTag(appId);
+      console.log('token bla', token);
       return await doFetch(baseUrl + 'favourites', options);
+
+      // const favourites = await Promise.all(
+      //   json.map(async (file) => {
+      //     return await doFetch(baseUrl + 'favourites', options);
+      //     // return await favourites.json();
+      //   })
+      // );
+      // setFavouriteArray(favourites);
+      // console.log('getFavouritesByUser bla blar', favourites);
+      // return await doFetch(baseUrl + 'favourites', options);
     } catch (error) {
       throw new Error('getFavouritesByUser: ' + error.message);
     }
   };
+  // useEffect(() => {
+  //   getFavouritesByUser();
+  //   // load media when update state changes in main context
+  //   // by adding update state to the array below
+  // }, []);
+
   const getFavouritesByFileId = async (fileId) => {
     try {
       return await doFetch(baseUrl + 'favourites/file/' + fileId);
@@ -264,6 +289,7 @@ const useFavourite = () => {
 
   return {
     postFavourite,
+    favouriteArray,
     getFavouritesByUser,
     getFavouritesByFileId,
     deleteFavourite,
