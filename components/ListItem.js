@@ -8,7 +8,7 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
 
-const ListItem = ({singleMedia, navigation}) => {
+const ListItem = ({singleMedia, navigation, route}) => {
   const {user, update} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
@@ -23,6 +23,8 @@ const ListItem = ({singleMedia, navigation}) => {
   const {getCommentsByFileId} = useComment();
   const {getFilesByTag} = useTag();
   const {getUserById} = useUser();
+
+  const routeName = route.name;
 
   const SubtitleContent = '@' + owner.username;
   const LeftContent = (props) =>
@@ -104,10 +106,15 @@ const ListItem = ({singleMedia, navigation}) => {
 
   return (
     <Card
-      style={styles.card}
+      style={
+        routeName === 'Search and Categories'
+          ? styles.cardCategories
+          : styles.card
+      }
       mode="elevated"
       onPress={() => {
         navigation.navigate('Single', item);
+        console.log('item', item);
       }}
     >
       <Card.Title
@@ -144,6 +151,11 @@ const styles = StyleSheet.create({
     margin: 5,
     marginHorizontal: 10,
   },
+  cardCategories: {
+    margin: 5,
+    marginHorizontal: 10,
+    width: 350,
+  },
   icon: {
     display: 'flex',
     flexDirection: 'row-reverse',
@@ -153,6 +165,7 @@ const styles = StyleSheet.create({
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default ListItem;

@@ -1,37 +1,36 @@
-import React, {useContext} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {MainContext} from '../contexts/MainContext';
-import {
-  Button,
-  Card,
-  Icon,
-  ListItem,
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-} from '@rneui/themed';
+import {Text} from '@rneui/themed';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 
-const MyPosts = ({navigation}) => {
+const MyPosts = ({navigation, route, input}) => {
   return (
     <>
-      <List navigation={navigation} myFilesOnly={true} />
+      <List
+        navigation={navigation}
+        route={route}
+        input={input}
+        myFilesOnly={true}
+      />
     </>
   );
 };
 MyPosts.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
+  input: PropTypes.string,
 };
 
-const Likes = () => {
+const Likes = ({navigation}) => {
   return (
     <>
-      <Text>My likes</Text>
+      {/* <List navigation={navigation} favouritesOnly={true} /> */}
+      <Text>Likes</Text>
     </>
   );
+};
+Likes.propTypes = {
+  navigation: PropTypes.object,
 };
 
 const Bookmarks = () => {

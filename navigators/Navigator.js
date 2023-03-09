@@ -17,6 +17,7 @@ import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import EditProfile from '../views/EditProfile';
+import Categories from '../views/Categories';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -58,15 +59,16 @@ const TabScreen = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} size="30" />,
+          tabBarIcon: ({color}) => <Icon name="home" color={color} size={30} />,
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="Search and Categories"
+        headerShown={false}
+        component={Categories}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="search" color={color} size="30" />
+            <Icon name="search" color={color} size={30} />
           ),
         }}
       />
@@ -74,16 +76,16 @@ const TabScreen = () => {
         name="Upload"
         component={Upload}
         options={{
-          tabBarIcon: () => <Icon name="add" size="50" color="white" />,
+          tabBarIcon: () => <Icon name="add" size={50} color="white" />,
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
       />
       <Tab.Screen
-        name="Notification"
+        name="Notifications"
         component={Notification}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="notifications" color={color} size="30" />
+            <Icon name="notifications" color={color} size={30} />
           ),
         }}
       />
@@ -92,7 +94,9 @@ const TabScreen = () => {
         component={Profile}
         options={{
           headerShown: false,
-          tabBarIcon: ({color}) => <Icon name="person" color={color} size="30"/>,
+          tabBarIcon: ({color}) => (
+            <Icon name="person" color={color} size={30} />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -114,6 +118,7 @@ const StackScreen = () => {
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="Search" component={Search} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
@@ -144,8 +149,8 @@ const styles = StyleSheet.create({
 });
 
 Navigator.propTypes = {
-  children: PropTypes.any,
   onPress: PropTypes.func,
+  children: PropTypes.any,
 };
 
 export default Navigator;

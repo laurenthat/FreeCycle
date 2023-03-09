@@ -14,9 +14,10 @@ const doFetch = async (url, options) => {
   return json;
 };
 
-const useMedia = (myFilesOnly) => {
+const useMedia = (myFilesOnly, favouritesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
   const {update, user} = useContext(MainContext);
+  const {getFavouritesByUser} = useFavourite();
 
   const loadMedia = async () => {
     try {
@@ -26,6 +27,11 @@ const useMedia = (myFilesOnly) => {
       // keep users files if MyFilesOnly
       if (myFilesOnly) {
         json = json.filter((file) => file.user_id === user.user_id);
+      }
+      if (favouritesOnly) {
+        json = json.filter(
+          (file) => file.file_id === getFavouritesByUser(user.token).file_id
+        );
       }
 
       json.reverse();
@@ -92,7 +98,23 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
-  return {mediaArray, postMedia, deleteMedia, putMedia};
+  const searchMedia = async (data, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'media/search', options);
+    } catch (error) {
+      throw new Error('searchMedia: ' + error.message);
+    }
+  };
+
+  return {mediaArray, postMedia, deleteMedia, putMedia, searchMedia};
 };
 
 const useAuthentication = () => {
@@ -231,7 +253,16 @@ const useFavourite = () => {
   };
 
   const getFavouritesByUser = async (token) => {
-    // TODO: implement this
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'favourites', options);
+    } catch (error) {
+      throw new Error('getFavouritesByUser: ' + error.message);
+    }
   };
 
   const getFavouritesByFileId = async (fileId) => {

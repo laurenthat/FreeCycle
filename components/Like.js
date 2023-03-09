@@ -6,8 +6,8 @@ import {useUser, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {uploadsUrl} from '../utils/variables';
 
-const Comment = ({single, navigation}) => {
-  const item = single;
+const Like = ({singleLike}) => {
+  const item = singleLike;
   const [avatar, setAvatar] = useState('');
   const [owner, setOwner] = useState({});
   const [userHasAvatar, setUserHasAvatar] = useState(false);
@@ -15,16 +15,9 @@ const Comment = ({single, navigation}) => {
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
 
-  const firstRow = (route) => (
+  const firstRow = (props) => (
     <View style={styles.firstRow}>
-      <Text>
-        {route.name === 'Notifications'
-          ? '@' + owner.username + ' has commented on '
-          : '@' + owner.username}
-      </Text>
-      <Text style={styles.date}>
-        {new Date(item.time_added).toLocaleString('fi-FI')}
-      </Text>
+      <Text>{'@' + owner.username + 'has liked your post'}</Text>
     </View>
   );
   const leftContent = (props) =>
@@ -39,6 +32,7 @@ const Comment = ({single, navigation}) => {
       const token = await AsyncStorage.getItem('userToken');
       const owner = await getUserById(item.user_id, token);
       setOwner(owner);
+      console.log('owner', owner);
     } catch (error) {
       console.log(error);
     }
@@ -54,16 +48,6 @@ const Comment = ({single, navigation}) => {
     }
   };
 
-  const getPostTitle = () => {
-    let postTitle = '';
-    mediaArray.forEach((media) => {
-      if (media.file_id === item.file_id) {
-        postTitle = media.title;
-      }
-      return postTitle;
-    });
-  };
-
   useEffect(() => {
     getOwner();
     loadAvatar();
@@ -71,16 +55,7 @@ const Comment = ({single, navigation}) => {
 
   return (
     <>
-      <List.Item
-        onPress={() => {
-          navigation.navigate('Single', item);
-        }}
-        style={styles.list}
-        title={firstRow}
-        description={item.comment}
-        descriptionNumberOfLines={7}
-        left={leftContent}
-      />
+      <List.Item style={styles.list} title={firstRow} left={leftContent} />
       <Divider />
     </>
   );
@@ -106,10 +81,8 @@ const styles = StyleSheet.create({
   },
 });
 
-Comment.propTypes = {
-  single: PropTypes.object,
-  navigation: PropTypes.object,
-  route: PropTypes.object,
+Like.propTypes = {
+  singleLike: PropTypes.object,
 };
 
-export default Comment;
+export default Like;
