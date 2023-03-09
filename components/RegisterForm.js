@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
 import {Card, Button, Input} from '@rneui/themed';
-import {ScrollView} from 'react-native';
+import {Alert, ScrollView} from 'react-native';
 
-const RegisterForm = (props) => {
+const RegisterForm = ({navigation}) => {
   // const {setIsLoggedIn} = useContext(MainContext);
   // const {postLogin} = useAuthentication();
   const {postUser, checkUsername} = useUser();
@@ -29,10 +30,13 @@ const RegisterForm = (props) => {
     console.log('Registering: ', registerData);
     try {
       const registerResult = await postUser(registerData);
-      console.log('registeration result', registerResult);
+      if (registerResult) {
+        Alert.alert('Congratulations!', 'Your account has been created.');
+      }
+      console.log('registration result', registerResult);
     } catch (error) {
       console.error('register', error);
-      // TODO: notify user about failed register attempt
+      Alert.alert('Sorry!', 'Try registering again.');
     }
   };
 
@@ -175,6 +179,9 @@ const RegisterForm = (props) => {
       </Card>
     </ScrollView>
   );
+};
+RegisterForm.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default RegisterForm;

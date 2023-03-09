@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -21,6 +21,17 @@ import EditProfile from '../views/EditProfile';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const LogoTitle = () => {
+  return (
+    <View>
+      <Image
+        style={{width: 200, height: 50}}
+        source={require('../assets/app_icon.png')}
+      />
+    </View>
+  );
+};
+
 const CustomTabBarButton = ({onPress, children}) => (
   <TouchableOpacity
     onPress={onPress}
@@ -39,6 +50,7 @@ const CustomTabBarButton = ({onPress, children}) => (
         borderRadius: 35,
         backgroundColor: '#fdaa5e',
       }}
+      headerStyle={{backgroundColor: '#fff'}}
     >
       {children}
     </View>
@@ -57,8 +69,11 @@ const TabScreen = () => {
       <Tab.Screen
         name="Home"
         component={Home}
+        style={{display: 'flex', justifyContent: 'center'}}
         options={{
           tabBarIcon: ({color}) => <Icon name="home" color={color} size={30} />,
+          headerTitleAlign: 'center',
+          headerTitle: (props) => <LogoTitle {...props} />,
         }}
       />
       <Tab.Screen
@@ -112,7 +127,13 @@ const StackScreen = () => {
             component={TabScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen
+            name="Single"
+            component={Single}
+            options={{
+              title: null,
+            }}
+          />
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="EditPost" component={EditPost} />
