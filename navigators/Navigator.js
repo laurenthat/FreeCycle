@@ -11,7 +11,6 @@ import Upload from '../views/Upload';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
 import Notification from '../views/Notification';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
@@ -59,7 +58,7 @@ const TabScreen = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} size="30" />,
+          tabBarIcon: ({color}) => <Icon name="home" color={color} size={30} />,
         }}
       />
       <Tab.Screen
@@ -67,7 +66,7 @@ const TabScreen = () => {
         component={Search}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="search" color={color} size="30" />
+            <Icon name="search" color={color} size={30} />
           ),
         }}
       />
@@ -75,7 +74,7 @@ const TabScreen = () => {
         name="Upload"
         component={Upload}
         options={{
-          tabBarIcon: () => <Icon name="add" size="50" color="white" />,
+          tabBarIcon: () => <Icon name="add" size={50} color="white" />,
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
       />
@@ -84,7 +83,7 @@ const TabScreen = () => {
         component={Notification}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="notifications" color={color} size="30" />
+            <Icon name="notifications" color={color} size={30} />
           ),
         }}
       />
@@ -94,7 +93,7 @@ const TabScreen = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <Icon name="person" color={color} size="30" />
+            <Icon name="person" color={color} size={30} />
           ),
         }}
       />
@@ -115,7 +114,6 @@ const StackScreen = () => {
           />
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyFiles" component={MyFiles} />
-          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="EditPost" component={EditPost} />
         </>
