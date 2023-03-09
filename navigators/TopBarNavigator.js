@@ -23,6 +23,9 @@ const Likes = ({navigation}) => {
     </>
   );
 };
+Likes.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const Bookmarks = () => {
   return (
