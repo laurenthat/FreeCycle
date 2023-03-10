@@ -10,9 +10,7 @@ import Login from '../views/Login';
 import Upload from '../views/Upload';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
-import Modify from '../views/Modify';
 import Notifications from '../views/Notifications';
-import MyFiles from '../views/MyFiles';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
@@ -130,18 +128,15 @@ const StackScreen = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="Search" component={Search} />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Single"
             component={Single}
             options={{
               title: null,
             }}
-          />
-          <Stack.Screen name="MyFiles" component={MyFiles} />
-          <Stack.Screen name="EditProfile" component={EditProfile} />
+          /> */}
           <Stack.Screen name="EditPost" component={EditPost} />
         </>
       ) : (

@@ -7,7 +7,7 @@ import {Searchbar} from 'react-native-paper';
 const Search = ({navigation, route}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = (query) => setSearchQuery(query);
-  console.log('searchQuery: ', searchQuery);
+  console.log(route);
 
   return (
     <SafeAreaView style={styles.container}>

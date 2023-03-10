@@ -1,4 +1,4 @@
-import {Alert, Dimensions, ImageBackground} from 'react-native';
+import {Alert, Dimensions} from 'react-native';
 import {Avatar, Accessory} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import React, {useContext, useEffect, useState} from 'react';
@@ -10,7 +10,7 @@ import {uploadsUrl} from '../utils/variables';
 import {Card, Appbar, Menu} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
@@ -153,6 +153,7 @@ const Profile = ({navigation}) => {
 
 Profile.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default Profile;

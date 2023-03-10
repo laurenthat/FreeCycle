@@ -21,7 +21,7 @@ import {
   useTag,
 } from '../hooks/ApiHooks';
 
-const ListItem = ({singleMedia, navigation}) => {
+const ListItem = ({singleMedia, navigation, route}) => {
   const {user, update, setUpdate} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');

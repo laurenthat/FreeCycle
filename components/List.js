@@ -4,6 +4,8 @@ import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFavourite} from '../hooks/ApiHooks';
 
 const List = ({
   navigation,
@@ -26,21 +28,48 @@ const List = ({
     clothingOnly,
     otherOnly
   );
+
   const {update, setUpdate} = useContext(MainContext);
   const [fetching, setFetching] = useState(false);
   const routeName = route.name;
+
+  const [likes, setLikes] = useState([]);
+  const {getFavouritesByUser} = useFavourite();
+
+  const getLikes = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const likes = await getFavouritesByUser(token);
+      setLikes(likes);
+      // console.log('likes', likes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mediaToShow = () => {
+    if (routeName === 'Likes') {
+      return mediaArray.filter((item) => item.file_id === likes.file_id);
+    } else {
+      return mediaArray;
+    }
+  };
+
   const unRefresh = () => {
     setUpdate(!update);
     setFetching(true);
   };
+
   useEffect(() => {
     setFetching(false);
-  }, [mediaArray]);
+    getLikes();
+  }, [mediaArray, likes]);
+
   return (
     <FlatList
       refreshing={fetching}
       onRefresh={unRefresh}
-      data={newOnly ? mediaArray.slice(0, 10) : mediaArray}
+      data={newOnly ? mediaToShow().slice(0, 10) : mediaToShow()}
       keyExtractor={(item, index) => index.toString()}
       showsHorizontalScrollIndicator={false}
       horizontal={horizontal}

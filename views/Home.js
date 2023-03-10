@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Home = ({navigation, route, input}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <List navigation={navigation} route={route} input={input}/>
+      <List navigation={navigation} route={route} input={input} />
     </SafeAreaView>
   );
 };

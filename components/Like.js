@@ -5,7 +5,7 @@ import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Like = ({navigation}) => {
+const Like = ({navigation, route}) => {
   const [likes, setLikes] = useState([]);
   const {mediaArray} = useMedia();
   const {getFavouritesByUser} = useFavourite();
@@ -24,25 +24,27 @@ const Like = ({navigation}) => {
     likes.some((likeItem) => likeItem.file_id === item.file_id)
   );
 
+  console.log('mediaLikes', mediaLikes);
   useEffect(() => {
     getLikes();
   }, []);
 
   return (
     <>
-      <FlatList
+      {/* <FlatList
         data={mediaLikes}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
-          <ListItem navigation={navigation} singleMedia={item} />
+          <ListItem route={route} navigation={navigation} singleMedia={item} />
         )}
-      />
+      /> */}
     </>
   );
 };
 
 Like.propTypes = {
   navigation: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
 };
 
 export default Like;

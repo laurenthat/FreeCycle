@@ -4,7 +4,7 @@ import List from '../components/List';
 import {PropTypes} from 'prop-types';
 import SearchForm from '../components/SearchForm';
 
-const Search = ({navigation, route, input}) => {
+const Categories = ({navigation, route, input}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -38,8 +38,8 @@ const Search = ({navigation, route, input}) => {
         <List
           navigation={navigation}
           horizontal={true}
-          newOnly={true}
           furnitureOnly={true}
+          newOnly={true}
           route={route}
           input={input}
         />
@@ -49,8 +49,8 @@ const Search = ({navigation, route, input}) => {
         <List
           navigation={navigation}
           horizontal={true}
-          newOnly={true}
           electronicsOnly={true}
+          newOnly={true}
           route={route}
           input={input}
         />
@@ -60,8 +60,8 @@ const Search = ({navigation, route, input}) => {
         <List
           navigation={navigation}
           horizontal={true}
-          newOnly={true}
           clothingOnly={true}
+          newOnly={true}
           route={route}
           input={input}
         />
@@ -71,8 +71,8 @@ const Search = ({navigation, route, input}) => {
         <List
           navigation={navigation}
           horizontal={true}
-          newOnly={true}
           otherOnly={true}
+          newOnly={true}
           route={route}
           input={input}
         />
@@ -96,10 +96,10 @@ const styles = StyleSheet.create({
   },
 });
 
-Search.propTypes = {
+Categories.propTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object,
   input: PropTypes.string,
 };
 
-export default Search;
+export default Categories;
