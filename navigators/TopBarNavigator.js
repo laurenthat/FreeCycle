@@ -21,24 +21,17 @@ MyPosts.propTypes = {
   input: PropTypes.string,
 };
 
-const Likes = ({navigation}) => {
+const Likes = () => {
   return (
     <>
-      {/* <List navigation={navigation} favouritesOnly={true} /> */}
       <Text>Likes</Text>
     </>
   );
 };
 Likes.propTypes = {
   navigation: PropTypes.object,
-};
-
-const Bookmarks = () => {
-  return (
-    <>
-      <Text>My bookmarks</Text>
-    </>
-  );
+  route: PropTypes.object,
+  input: PropTypes.string,
 };
 
 const Tab = createMaterialTopTabNavigator();
@@ -48,7 +41,6 @@ const TopBarNavigator = () => {
     <Tab.Navigator>
       <Tab.Screen name="My posts" component={MyPosts} />
       <Tab.Screen name="Likes" component={Likes} />
-      <Tab.Screen name="Bookmarks" component={Bookmarks} />
     </Tab.Navigator>
   );
 };

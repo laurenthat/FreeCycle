@@ -127,7 +127,6 @@ const ListItem = ({singleMedia, navigation, route}) => {
         <Text variant="titleMedium">{item.description}</Text>
       </Card.Content>
       <Card.Actions style={styles.icon}>
-        <Icon name="bookmark-outline" />
         <Text>{comments.length}</Text>
         <Icon name="chat-bubble-outline" />
         <Text>{likes.length}</Text>

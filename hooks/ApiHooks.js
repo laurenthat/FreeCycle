@@ -1,6 +1,13 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {appId, baseUrl} from '../utils/variables';
+import {
+  appId,
+  baseUrl,
+  clothing,
+  electronics,
+  furniture,
+  other,
+} from '../utils/variables';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -14,24 +21,37 @@ const doFetch = async (url, options) => {
   return json;
 };
 
-const useMedia = (myFilesOnly, favouritesOnly) => {
+const useMedia = (
+  myFilesOnly,
+  favouritesOnly,
+  furnitureOnly,
+  clothingOnly,
+  electronicsOnly,
+  otherOnly
+) => {
   const [mediaArray, setMediaArray] = useState([]);
   const {update, user} = useContext(MainContext);
-  const {getFavouritesByUser} = useFavourite();
 
   const loadMedia = async () => {
     try {
       // const response = await fetch(baseUrl + 'media');
       // const json = await response.json();
       let json = await useTag().getFilesByTag(appId);
+      if (furnitureOnly) {
+        json = await useTag().getFilesByTag(furniture);
+      }
+      if (clothingOnly) {
+        json = await useTag().getFilesByTag(clothing);
+      }
+      if (electronicsOnly) {
+        json = await useTag().getFilesByTag(electronics);
+      }
+      if (otherOnly) {
+        json = await useTag().getFilesByTag(other);
+      }
       // keep users files if MyFilesOnly
       if (myFilesOnly) {
         json = json.filter((file) => file.user_id === user.user_id);
-      }
-      if (favouritesOnly) {
-        json = json.filter(
-          (file) => file.file_id === getFavouritesByUser(user.token).file_id
-        );
       }
 
       json.reverse();
@@ -98,23 +118,7 @@ const useMedia = (myFilesOnly, favouritesOnly) => {
     }
   };
 
-  const searchMedia = async (data, token) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'x-access-token': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-    try {
-      return await doFetch(baseUrl + 'media/search', options);
-    } catch (error) {
-      throw new Error('searchMedia: ' + error.message);
-    }
-  };
-
-  return {mediaArray, postMedia, deleteMedia, putMedia, searchMedia};
+  return {mediaArray, postMedia, deleteMedia, putMedia};
 };
 
 const useAuthentication = () => {

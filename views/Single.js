@@ -2,8 +2,8 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Modal,
-  ScrollView,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import {Avatar, Card, Text} from 'react-native-paper';
 import PropTypes from 'prop-types';
@@ -45,7 +45,7 @@ const Single = ({navigation, route}) => {
   const {getCommentsByFileId} = useComment();
 
   const SubtitleContent = '@' + owner.username;
-  const LeftContent = (props) =>
+  const LeftContent = () =>
     userHasAvatar ? (
       <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
     ) : (
@@ -191,7 +191,6 @@ const Single = ({navigation, route}) => {
               <Text variant="titleMedium">{description}</Text>
             </Card.Content>
             <Card.Actions style={styles.icon}>
-              <Icon name="bookmark-outline" />
               <Text>{comments.length}</Text>
               <Icon name="chat-bubble-outline" />
               <Text>{likes.length}</Text>

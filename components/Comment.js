@@ -5,29 +5,37 @@ import {List, Avatar, Divider} from 'react-native-paper';
 import {useUser, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {uploadsUrl} from '../utils/variables';
+import {useMedia} from '../hooks/ApiHooks';
 
-const Comment = ({single, navigation}) => {
+const Comment = ({single, navigation, route, myFilesOnly}) => {
   const item = single;
   const [avatar, setAvatar] = useState('');
   const [owner, setOwner] = useState({});
   const [userHasAvatar, setUserHasAvatar] = useState(false);
+  const routeName = route.name;
 
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
+  const {mediaArray} = useMedia(myFilesOnly);
 
-  const firstRow = (route) => (
+  const firstRow = () => (
     <View style={styles.firstRow}>
       <Text>
-        {route.name === 'Notifications'
-          ? '@' + owner.username + ' has commented on '
-          : '@' + owner.username}
+        {routeName != 'Notifications'
+          ? '@' + owner.username
+          : '@' + owner.username + ' commented on '}
+      </Text>
+      <Text style={styles.postTitle}>
+        {routeName === 'Notifications' ? getPostTitle() : ''}
       </Text>
       <Text style={styles.date}>
-        {new Date(item.time_added).toLocaleString('fi-FI')}
+        {routeName === 'Notifications'
+          ? ''
+          : new Date(item.time_added).toLocaleString('fi-FI')}
       </Text>
     </View>
   );
-  const leftContent = (props) =>
+  const leftContent = () =>
     userHasAvatar ? (
       <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
     ) : (
@@ -56,12 +64,10 @@ const Comment = ({single, navigation}) => {
 
   const getPostTitle = () => {
     let postTitle = '';
-    mediaArray.forEach((media) => {
-      if (media.file_id === item.file_id) {
-        postTitle = media.title;
-      }
-      return postTitle;
-    });
+    for (let i = 0; i < mediaArray.length; i++) {
+      postTitle = mediaArray[i].title;
+    }
+    return postTitle;
   };
 
   useEffect(() => {
@@ -72,11 +78,9 @@ const Comment = ({single, navigation}) => {
   return (
     <>
       <List.Item
-        onPress={() => {
-          navigation.navigate('Single', item);
-        }}
         style={styles.list}
         title={firstRow}
+        titleNumberOfLines={2}
         description={item.comment}
         descriptionNumberOfLines={7}
         left={leftContent}
@@ -104,12 +108,17 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     justifyContent: 'space-between',
   },
+  postTitle: {
+    fontWeight: 'bold',
+    color: '#fdaa5e',
+  },
 });
 
 Comment.propTypes = {
   single: PropTypes.object,
   navigation: PropTypes.object,
   route: PropTypes.object,
+  myFilesOnly: PropTypes.bool,
 };
 
 export default Comment;

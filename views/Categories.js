@@ -1,12 +1,27 @@
 import React from 'react';
-import {StyleSheet, Text, ScrollView, View} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, RefreshControl} from 'react-native';
 import List from '../components/List';
 import {PropTypes} from 'prop-types';
 import SearchForm from '../components/SearchForm';
 
 const Search = ({navigation, route, input}) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
-    <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      stickyHeaderIndices={[0]}
+    >
       <SearchForm navigation={navigation} />
       <View>
         <Text style={styles.categoryText}>New</Text>
@@ -19,11 +34,45 @@ const Search = ({navigation, route, input}) => {
         />
       </View>
       <View>
-        <Text style={styles.categoryText}>Popular</Text>
+        <Text style={styles.categoryText}>Furniture</Text>
         <List
           navigation={navigation}
           horizontal={true}
           newOnly={true}
+          furnitureOnly={true}
+          route={route}
+          input={input}
+        />
+      </View>
+      <View>
+        <Text style={styles.categoryText}>Electronics</Text>
+        <List
+          navigation={navigation}
+          horizontal={true}
+          newOnly={true}
+          electronicsOnly={true}
+          route={route}
+          input={input}
+        />
+      </View>
+      <View>
+        <Text style={styles.categoryText}>Clothing</Text>
+        <List
+          navigation={navigation}
+          horizontal={true}
+          newOnly={true}
+          clothingOnly={true}
+          route={route}
+          input={input}
+        />
+      </View>
+      <View>
+        <Text style={styles.categoryText}>Other</Text>
+        <List
+          navigation={navigation}
+          horizontal={true}
+          newOnly={true}
+          otherOnly={true}
           route={route}
           input={input}
         />

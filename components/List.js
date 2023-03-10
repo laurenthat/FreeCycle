@@ -11,10 +11,21 @@ const List = ({
   horizontal = false,
   newOnly = false,
   favouritesOnly = false,
+  furnitureOnly = false,
+  electronicsOnly = false,
+  clothingOnly = false,
+  otherOnly = false,
   input,
   route,
 }) => {
-  const {mediaArray} = useMedia(myFilesOnly, favouritesOnly);
+  const {mediaArray} = useMedia(
+    myFilesOnly,
+    favouritesOnly,
+    furnitureOnly,
+    electronicsOnly,
+    clothingOnly,
+    otherOnly
+  );
   const {update, setUpdate} = useContext(MainContext);
   const [fetching, setFetching] = useState(false);
   const routeName = route.name;
@@ -71,6 +82,10 @@ List.propTypes = {
   favouritesOnly: PropTypes.bool,
   input: PropTypes.string,
   route: PropTypes.object,
+  furnitureOnly: PropTypes.bool,
+  electronicsOnly: PropTypes.bool,
+  clothingOnly: PropTypes.bool,
+  otherOnly: PropTypes.bool,
 };
 
 export default List;

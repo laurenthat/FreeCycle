@@ -10,9 +10,8 @@ import Login from '../views/Login';
 import Upload from '../views/Upload';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
-import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
-import Notification from '../views/Notification';
+import Notifications from '../views/Notifications';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
@@ -64,7 +63,6 @@ const TabScreen = () => {
       />
       <Tab.Screen
         name="Search and Categories"
-        headerShown={false}
         component={Categories}
         options={{
           tabBarIcon: ({color}) => (
@@ -82,7 +80,7 @@ const TabScreen = () => {
       />
       <Tab.Screen
         name="Notifications"
-        component={Notification}
+        component={Notifications}
         options={{
           tabBarIcon: ({color}) => (
             <Icon name="notifications" color={color} size={30} />
@@ -115,7 +113,6 @@ const StackScreen = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="Search" component={Search} />
