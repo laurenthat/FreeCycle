@@ -71,7 +71,7 @@ const Upload = ({navigation}) => {
       );
       console.log('tag advert result', tagAdvert);
 
-      Alert.alert('Uploaded', 'File id: ' + result.file_id, [
+      Alert.alert('Congratulations!', 'Your ad has been uploaded.', [
         {
           text: 'OK',
           onPress: () => {
@@ -212,7 +212,7 @@ const Upload = ({navigation}) => {
                 mode="outlined"
                 label="Describe the item you're giving away."
                 numberOfLines={10}
-                maxLength={40}
+                maxLength={120}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
