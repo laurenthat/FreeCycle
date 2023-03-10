@@ -1,19 +1,8 @@
-import React, {useContext} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {MainContext} from '../contexts/MainContext';
-import {
-  Button,
-  Card,
-  Icon,
-  ListItem,
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-} from '@rneui/themed';
 import List from '../components/List';
 import PropTypes from 'prop-types';
+import Like from '../components/Like';
 
 const MyPosts = ({navigation}) => {
   return (
@@ -26,30 +15,39 @@ MyPosts.propTypes = {
   navigation: PropTypes.object,
 };
 
-const Likes = () => {
+const Likes = ({navigation}) => {
   return (
     <>
-      <Text>My likes</Text>
+      <Like navigation={navigation} />
     </>
   );
 };
-
-const Bookmarks = () => {
-  return (
-    <>
-      <Text>My bookmarks</Text>
-    </>
-  );
+Likes.propTypes = {
+  navigation: PropTypes.object,
 };
 
 const Tab = createMaterialTopTabNavigator();
 
 const TopBarNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="My posts" component={MyPosts} />
-      <Tab.Screen name="Likes" component={Likes} />
-      <Tab.Screen name="Bookmarks" component={Bookmarks} />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {fontSize: 12},
+        tabBarItemStyle: {borderColor: '#FDAA5E'},
+        tabBarPressColor: '#FDAA5E',
+        // tabBarStyle: {backgroundColor: 'powderblue'},
+      }}
+    >
+      <Tab.Screen
+        name="My posts"
+        component={MyPosts}
+        options={{tabBarLabel: 'My Posts'}}
+      />
+      <Tab.Screen
+        name="Likes"
+        component={Likes}
+        options={{tabBarLabel: 'Likes'}}
+      />
     </Tab.Navigator>
   );
 };

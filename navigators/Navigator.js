@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -11,15 +11,26 @@ import Upload from '../views/Upload';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
 import Notification from '../views/Notification';
 import Search from '../views/Search';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import EditPost from '../views/EditPost';
 import EditProfile from '../views/EditProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const LogoTitle = () => {
+  return (
+    <View>
+      <Image
+        style={{width: 200, height: 50}}
+        source={require('../assets/app_icon.png')}
+      />
+    </View>
+  );
+};
 
 const CustomTabBarButton = ({onPress, children}) => (
   <TouchableOpacity
@@ -39,6 +50,7 @@ const CustomTabBarButton = ({onPress, children}) => (
         borderRadius: 35,
         backgroundColor: '#fdaa5e',
       }}
+      headerStyle={{backgroundColor: '#fff'}}
     >
       {children}
     </View>
@@ -57,8 +69,11 @@ const TabScreen = () => {
       <Tab.Screen
         name="Home"
         component={Home}
+        style={{display: 'flex', justifyContent: 'center'}}
         options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} size="30" />,
+          tabBarIcon: ({color}) => <Icon name="home" color={color} size={30} />,
+          headerTitleAlign: 'center',
+          headerTitle: (props) => <LogoTitle {...props} />,
         }}
       />
       <Tab.Screen
@@ -66,7 +81,7 @@ const TabScreen = () => {
         component={Search}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="search" color={color} size="30" />
+            <Icon name="search" color={color} size={30} />
           ),
         }}
       />
@@ -74,7 +89,7 @@ const TabScreen = () => {
         name="Upload"
         component={Upload}
         options={{
-          tabBarIcon: () => <Icon name="add" size="50" color="white" />,
+          tabBarIcon: () => <Icon name="add" size={50} color="white" />,
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
       />
@@ -83,7 +98,7 @@ const TabScreen = () => {
         component={Notification}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="notifications" color={color} size="30" />
+            <Icon name="notifications" color={color} size={30} />
           ),
         }}
       />
@@ -92,7 +107,9 @@ const TabScreen = () => {
         component={Profile}
         options={{
           headerShown: false,
-          tabBarIcon: ({color}) => <Icon name="person" color={color} size="30"/>,
+          tabBarIcon: ({color}) => (
+            <Icon name="person" color={color} size={30} />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -110,10 +127,16 @@ const StackScreen = () => {
             component={TabScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen
+            name="Single"
+            component={Single}
+            options={{
+              title: null,
+            }}
+          />
           <Stack.Screen name="MyFiles" component={MyFiles} />
-          <Stack.Screen name="Modify" component={Modify} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="EditPost" component={EditPost} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>

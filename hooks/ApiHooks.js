@@ -1,6 +1,13 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {appId, baseUrl} from '../utils/variables';
+import {
+  appId,
+  baseUrl,
+  clothing,
+  electronics,
+  furniture,
+  other,
+} from '../utils/variables';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -14,7 +21,14 @@ const doFetch = async (url, options) => {
   return json;
 };
 
-const useMedia = (myFilesOnly) => {
+const useMedia = (
+  myFilesOnly,
+  favouritesOnly,
+  furnitureOnly,
+  clothingOnly,
+  electronicsOnly,
+  otherOnly
+) => {
   const [mediaArray, setMediaArray] = useState([]);
   const {update, user} = useContext(MainContext);
 
@@ -23,6 +37,18 @@ const useMedia = (myFilesOnly) => {
       // const response = await fetch(baseUrl + 'media');
       // const json = await response.json();
       let json = await useTag().getFilesByTag(appId);
+      if (furnitureOnly) {
+        json = await useTag().getFilesByTag(furniture);
+      }
+      if (clothingOnly) {
+        json = await useTag().getFilesByTag(clothing);
+      }
+      if (electronicsOnly) {
+        json = await useTag().getFilesByTag(electronics);
+      }
+      if (otherOnly) {
+        json = await useTag().getFilesByTag(other);
+      }
       // keep users files if MyFilesOnly
       if (myFilesOnly) {
         json = json.filter((file) => file.user_id === user.user_id);
@@ -231,7 +257,16 @@ const useFavourite = () => {
   };
 
   const getFavouritesByUser = async (token) => {
-    // TODO: implement this
+    const options = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'favourites', options);
+    } catch (error) {
+      throw new Error('getFavouritesByUser: ' + error.message);
+    }
   };
 
   const getFavouritesByFileId = async (fileId) => {
