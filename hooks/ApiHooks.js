@@ -1,7 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {appId, baseUrl} from '../utils/variables';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -215,8 +214,7 @@ const useTag = () => {
 };
 
 const useFavourite = (token) => {
-  const [favouriteArray, setFavouriteArray] = useState([]);
-  const {update, user} = useContext(MainContext);
+  const [favouriteArray] = useState([]);
 
   const postFavourite = async (fileId, token) => {
     const options = {
