@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -45,12 +46,13 @@ const Login = ({navigation}) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           {toggleForm ? <LoginForm /> : <RegisterForm />}
-          <Text>
+          <Text style={styles.text}>
             {toggleForm
               ? 'No account yet? Please register.'
               : 'Already have an account? Please login.'}
           </Text>
           <Button
+            style={styles.button}
             type="outline"
             title={toggleForm ? 'Register' : 'Login'}
             onPress={() => {
@@ -62,6 +64,17 @@ const Login = ({navigation}) => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  button: {
+    marginVertical: 10,
+    marginHorizontal: 30,
+  },
+});
 
 Login.propTypes = {
   navigation: PropTypes.object,

@@ -1,15 +1,23 @@
-import {Button, Card, Input} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from 'react-native';
+import {Card} from 'react-native-paper';
 import {useContext, useRef, useState} from 'react';
 import {useMedia} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {uploadsUrl} from '../utils/variables';
 import {Video} from 'expo-av';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
+import {TextInput, Button} from 'react-native-paper';
+import {uploadsUrl} from '../utils/variables';
 
-const Modify = ({navigation, route}) => {
+const EditPost = ({navigation, route}) => {
   const {file} = route.params;
   const video = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +32,7 @@ const Modify = ({navigation, route}) => {
     mode: 'onChange',
   });
 
-  const ModifyFile = async (data) => {
+  const modifyFile = async (data) => {
     // create form data and post it
     setLoading(true);
     console.log('data', data);
@@ -37,7 +45,7 @@ const Modify = ({navigation, route}) => {
           text: 'OK',
           onPress: () => {
             setUpdate(!update);
-            navigation.navigate('MyFiles');
+            navigation.navigate('Home');
           },
         },
       ]);
@@ -51,7 +59,7 @@ const Modify = ({navigation, route}) => {
   return (
     <ScrollView>
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
-        <Card>
+        <View>
           {file.media_type === 'video' ? (
             <Video
               ref={video}
@@ -64,12 +72,25 @@ const Modify = ({navigation, route}) => {
               }}
             />
           ) : (
-            <Card.Image
-              source={{
-                uri: uploadsUrl + file.filename,
-              }}
-            />
+            <Card>
+              <Card.Cover
+                source={{
+                  uri: uploadsUrl + file.filename,
+                }}
+              />
+            </Card>
           )}
+        </View>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            height: '100%',
+            padding: 20,
+          }}
+        >
           <Controller
             control={control}
             rules={{
@@ -83,11 +104,13 @@ const Modify = ({navigation, route}) => {
               },
             }}
             render={({field: {onChange, onBlur, value}}) => (
-              <Input
-                placeholder="Title"
+              <TextInput
+                mode="outlined"
+                label="What are you giving away?"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                style={{width: '100%'}}
                 errorMessage={errors.title && errors.title.message}
               />
             )}
@@ -102,30 +125,52 @@ const Modify = ({navigation, route}) => {
               },
             }}
             render={({field: {onChange, onBlur, value}}) => (
-              <Input
-                placeholder="Description"
+              <TextInput
+                mode="outlined"
+                label="Describe the item you're giving away."
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                style={{width: '100%', marginTop: '10%'}}
+                multiline="true"
+                numberOfLines={10}
                 errorMessage={errors.description && errors.description.message}
               />
             )}
             name="description"
           />
           <Button
+            // disabled={!file.uri || errors.title || errors.description}
+            style={styles.button}
+            onPress={handleSubmit(modifyFile)}
             loading={loading}
-            title="Modify"
-            onPress={handleSubmit(ModifyFile)}
-          />
-        </Card>
+            mode="contained"
+          >
+            Edit advertisement
+          </Button>
+        </View>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-Modify.propTypes = {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 40,
+  },
+  button: {
+    width: 200,
+    marginTop: '10%',
+  },
+});
+
+EditPost.propTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object,
 };
 
-export default Modify;
+export default EditPost;

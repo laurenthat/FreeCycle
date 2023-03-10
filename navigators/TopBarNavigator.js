@@ -1,7 +1,10 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Text} from '@rneui/themed';
+import React from 'react';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import List from '../components/List';
 import PropTypes from 'prop-types';
+import Like from '../components/Like';
 
 const MyPosts = ({navigation, route, input}) => {
   return (
@@ -21,26 +24,39 @@ MyPosts.propTypes = {
   input: PropTypes.string,
 };
 
-const Likes = () => {
+const Likes = ({navigation}) => {
   return (
     <>
-      <Text>Likes</Text>
+      <Like navigation={navigation} />
     </>
   );
 };
 Likes.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
-  input: PropTypes.string,
 };
 
 const Tab = createMaterialTopTabNavigator();
 
 const TopBarNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="My posts" component={MyPosts} />
-      <Tab.Screen name="Likes" component={Likes} />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {fontSize: 12},
+        tabBarItemStyle: {borderColor: '#FDAA5E'},
+        tabBarPressColor: '#FDAA5E',
+        // tabBarStyle: {backgroundColor: 'powderblue'},
+      }}
+    >
+      <Tab.Screen
+        name="My posts"
+        component={MyPosts}
+        options={{tabBarLabel: 'My Posts'}}
+      />
+      <Tab.Screen
+        name="Likes"
+        component={Likes}
+        options={{tabBarLabel: 'Likes'}}
+      />
     </Tab.Navigator>
   );
 };

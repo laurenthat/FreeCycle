@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {appId} from '../utils/variables';
 import {Video} from 'expo-av';
+import Tags from '../components/Tags';
 
 const Upload = ({navigation}) => {
   const [mediafile, setMediafile] = useState({});
@@ -24,18 +25,19 @@ const Upload = ({navigation}) => {
   const {postMedia} = useMedia();
   const {postTag} = useTag();
   const {update, setUpdate} = useContext(MainContext);
+  const {advertTag} = useContext(MainContext);
   const {
     control,
     handleSubmit,
     formState: {errors},
     trigger,
-    reset,
   } = useForm({
     defaultValues: {title: '', description: ''},
     mode: 'onChange',
   });
 
-  const defaultAvatar = require('../assets/user_icon.png');
+  const defaultAvatar =
+    'https://img.icons8.com/sf-regular/480/FDAA5E/plus-math.png';
 
   const uploadFile = async (data) => {
     setLoading(true);
@@ -62,6 +64,12 @@ const Upload = ({navigation}) => {
       };
       const tagResult = await postTag(appTag, token);
       console.log('tag result', tagResult);
+
+      const tagAdvert = await postTag(
+        {file_id: result.file_id, tag: `${appId}_advert_${advertTag}`},
+        token
+      );
+      console.log('tag advert result', tagAdvert);
 
       Alert.alert('Uploaded', 'File id: ' + result.file_id, [
         {
@@ -134,12 +142,9 @@ const Upload = ({navigation}) => {
             />
           ) : (
             <Avatar
-              source={
-                //   {
-                //   uri: mediafile.uri || 'https://placekitten.com/g/200/300',
-                // }
-                mediafile ? {uri: mediafile.uri} : defaultAvatar
-              }
+              source={{
+                uri: mediafile.uri || defaultAvatar,
+              }}
               rounded
               avatarStyle={{
                 borderWidth: 5,
@@ -220,13 +225,11 @@ const Upload = ({navigation}) => {
             )}
             name="description"
           />
-
-          {/* </View> */}
-          {/* <Button title="Pick a file" onPress={pickFile} /> */}
+          <Tags></Tags>
           <Button
             loading={loading}
             disabled={!mediafile.uri || errors.title || errors.description}
-            style={{width: '90%', marginTop: '10%'}}
+            style={{width: '90%', marginBottom: '10%', marginTop: '10%'}}
             mode="contained"
             onPress={handleSubmit(uploadFile)}
           >

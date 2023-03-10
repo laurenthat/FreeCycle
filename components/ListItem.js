@@ -1,15 +1,28 @@
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import {Avatar, Card, Text} from 'react-native-paper';
+import {
+  Avatar,
+  Card,
+  Text,
+  IconButton,
+  Menu,
+  Divider,
+} from 'react-native-paper';
 import {Icon} from '@rneui/themed';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser, useFavourite, useComment, useTag} from '../hooks/ApiHooks';
+import {
+  useMedia,
+  useUser,
+  useFavourite,
+  useComment,
+  useTag,
+} from '../hooks/ApiHooks';
 
-const ListItem = ({singleMedia, navigation, route}) => {
-  const {user, update} = useContext(MainContext);
+const ListItem = ({singleMedia, navigation}) => {
+  const {user, update, setUpdate} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
   const [owner, setOwner] = useState({});
@@ -18,6 +31,7 @@ const ListItem = ({singleMedia, navigation, route}) => {
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [userHasAvatar, setUserHasAvatar] = useState(false);
 
+  const {deleteMedia} = useMedia();
   const {getFavouritesByFileId, postFavourite, deleteFavourite} =
     useFavourite();
   const {getCommentsByFileId} = useComment();
@@ -33,6 +47,54 @@ const ListItem = ({singleMedia, navigation, route}) => {
     ) : (
       <Avatar.Icon size={45} icon="account" />
     );
+
+  const rightContent = () => {
+    const [visible, setVisible] = useState(false);
+    const openMenu = () => setVisible(true);
+    const closeMenu = () => setVisible(false);
+
+    return (
+      <>
+        {item.user_id === user.user_id && (
+          <Menu
+            visible={visible}
+            onDismiss={closeMenu}
+            anchor={
+              <IconButton icon="dots-vertical" size={25} onPress={openMenu} />
+            }
+          >
+            <Menu.Item onPress={editPost} title="Edit" />
+            <Divider />
+            <Menu.Item
+              onPress={async () => {
+                try {
+                  Alert.alert('Delete', 'this file permanently', [
+                    {text: 'Cancel'},
+                    {
+                      text: 'OK',
+                      onPress: async () => {
+                        const token = await AsyncStorage.getItem('userToken');
+                        const response = await deleteMedia(item.file_id, token);
+                        response && setUpdate(!update);
+                        closeMenu();
+                      },
+                    },
+                  ]);
+                } catch (error) {
+                  throw new Error('doDelete: ' + error.message);
+                }
+              }}
+              title="Delete"
+            />
+          </Menu>
+        )}
+      </>
+    );
+  };
+
+  const editPost = () => {
+    navigation.navigate('EditPost', {file: item});
+  };
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -121,6 +183,7 @@ const ListItem = ({singleMedia, navigation, route}) => {
         title={item.title}
         subtitle={SubtitleContent}
         left={LeftContent}
+        right={rightContent}
       />
       <Card.Cover source={{uri: uploadsUrl + item.thumbnails?.w160}} />
       <Card.Content>
