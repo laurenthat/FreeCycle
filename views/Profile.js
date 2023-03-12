@@ -6,11 +6,11 @@ import * as ImagePicker from 'expo-image-picker';
 import {MainContext} from '../contexts/MainContext';
 import {useTag, useMedia} from '../hooks/ApiHooks';
 import TopBarNavigator from '../navigators/TopBarNavigator';
-import {uploadsUrl} from '../utils/variables';
+import {defaultAvatar, uploadsUrl} from '../utils/variables';
 import {Card, Appbar, Menu} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Profile = ({navigation, route}) => {
+const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
@@ -18,8 +18,6 @@ const Profile = ({navigation, route}) => {
   const [visible, setVisible] = React.useState(false);
   const {postMedia} = useMedia();
   const {postTag} = useTag();
-
-  const defaultAvatar = 'https://robohash.org/honey?set=set3';
 
   const loadAvatar = async () => {
     try {

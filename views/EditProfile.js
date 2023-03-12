@@ -122,11 +122,6 @@ const EditProfile = ({navigation}) => {
           <Controller
             control={control}
             rules={{
-              // required: {
-              //   value: true,
-              //   message:
-              //     'min 5 characters, needs one number, one uppercase letter',
-              // },
               pattern: {
                 value: /(?=.*\p{Lu})(?=.*[0-9]).{5,}/u,
                 message:

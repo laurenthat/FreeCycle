@@ -3,23 +3,15 @@ import PropTypes from 'prop-types';
 import Comment from '../components/Comment';
 import {useComment} from '../hooks/ApiHooks';
 import {useMedia} from '../hooks/ApiHooks';
-import {SectionList, Text, StyleSheet, RefreshControl} from 'react-native';
+import {SectionList, Text, StyleSheet} from 'react-native';
 import moment from 'moment';
 
 const CommentList = ({route, myFilesOnly, navigation}) => {
   const [comments, setComments] = useState([]);
   const [notificationComments, setNotificationComments] = useState([]);
-  const [refreshing, setRefreshing] = React.useState(false);
   const {getCommentsByFileId} = useComment();
   const {mediaArray} = useMedia(myFilesOnly);
   const routeName = route.name;
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
   const getComments = async () => {
     if (routeName === 'Notifications') {
@@ -63,45 +55,51 @@ const CommentList = ({route, myFilesOnly, navigation}) => {
           moment().subtract(1, 'days').format('M D YYYY')
     );
 
+    const data = [
+      {
+        title: 'Today',
+        data: todayComments,
+      },
+      {
+        title: 'Yesterday',
+        data: yesterdayComments,
+      },
+      {
+        title: 'Earlier',
+        data: earlierComments,
+      },
+    ];
+
     if (routeName === 'Notifications') {
-      return (
-        <SectionList
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          sections={[
-            {
-              title: 'Today',
-              data: todayComments.map((item) => item),
-            },
-            {
-              title: 'Yesterday',
-              data: yesterdayComments.map((item) => item),
-            },
-            {
-              title: 'Earlier',
-              data: earlierComments.map((item) => item),
-            },
-          ]}
-          renderItem={({item}) => (
-            <Comment
-              navigation={navigation}
-              single={item}
-              route={route}
-              myFilesOnly={myFilesOnly}
-              onPress={() => {
-                navigation.navigate('Single', {
-                  file_id: item.file_id,
-                });
-              }}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          renderSectionHeader={({section}) => (
-            <Text style={styles.sectionHeader}>{section.title}</Text>
-          )}
-        />
-      );
+      if (
+        todayComments.length === 0 &&
+        yesterdayComments.length === 0 &&
+        earlierComments.length === 0
+      ) {
+        return (
+          <Text style={styles.noCommentsText}>
+            No new comments left on your posts yet...
+          </Text>
+        );
+      } else {
+        return (
+          <SectionList
+            sections={data}
+            renderItem={({item}) => (
+              <Comment
+                navigation={navigation}
+                single={item}
+                route={route}
+                myFilesOnly={myFilesOnly}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            renderSectionHeader={({section}) => (
+              <Text style={styles.sectionHeader}>{section.title}</Text>
+            )}
+          />
+        );
+      }
     } else {
       return (
         <>
@@ -124,8 +122,7 @@ const CommentList = ({route, myFilesOnly, navigation}) => {
 
   useEffect(() => {
     getComments();
-    showComments();
-  }, [comments, notificationComments, mediaArray]);
+  }, []);
 
   return showComments();
 };

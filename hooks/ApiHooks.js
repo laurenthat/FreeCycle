@@ -23,7 +23,6 @@ const doFetch = async (url, options) => {
 
 const useMedia = (
   myFilesOnly,
-  favouritesOnly,
   furnitureOnly,
   clothingOnly,
   electronicsOnly,

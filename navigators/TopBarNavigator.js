@@ -2,8 +2,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import React from 'react';
 import List from '../components/List';
 import PropTypes from 'prop-types';
-import Like from '../components/Like';
-import {Text} from 'react-native-paper';
 
 const MyPosts = ({navigation, input, route}) => {
   console.log(route);
@@ -25,11 +23,7 @@ MyPosts.propTypes = {
 };
 
 const Likes = ({navigation, route, input}) => {
-  return (
-    // <Like navigation={navigation} />
-    <Text>Likes</Text>
-    // <List navigation={navigation} route={route} input={input} />
-  );
+  return <List navigation={navigation} route={route} input={input} />;
 };
 Likes.propTypes = {
   navigation: PropTypes.object,

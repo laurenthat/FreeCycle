@@ -14,7 +14,7 @@ import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {appId} from '../utils/variables';
+import {appId, defaultUpload} from '../utils/variables';
 import {Video} from 'expo-av';
 import Tags from '../components/Tags';
 
@@ -35,9 +35,6 @@ const Upload = ({navigation}) => {
     defaultValues: {title: '', description: ''},
     mode: 'onChange',
   });
-
-  const defaultAvatar =
-    'https://img.icons8.com/sf-regular/480/FDAA5E/plus-math.png';
 
   const uploadFile = async (data) => {
     setLoading(true);
@@ -114,12 +111,9 @@ const Upload = ({navigation}) => {
     }
   };
 
-  console.log('tupe', mediafile.type);
-
   return (
     <ScrollView>
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
-        {/* <Card> */}
         <View
           style={{
             display: 'flex',
@@ -143,7 +137,7 @@ const Upload = ({navigation}) => {
           ) : (
             <Avatar
               source={{
-                uri: mediafile.uri || defaultAvatar,
+                uri: mediafile.uri || defaultUpload,
               }}
               rounded
               avatarStyle={{
@@ -236,7 +230,6 @@ const Upload = ({navigation}) => {
             Upload advertisment
           </Button>
         </View>
-        {/* </Card> */}
       </TouchableOpacity>
     </ScrollView>
   );

@@ -11,7 +11,6 @@ const CommentForm = ({navigation, route}) => {
   const isTextareaDisabled = text.length === 0;
 
   const sendComment = async () => {
-    console.log('send comment', text);
     const commentData = {
       file_id: fileId,
       comment: text,

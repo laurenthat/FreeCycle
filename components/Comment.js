@@ -58,7 +58,7 @@ const Comment = ({single, navigation, route, myFilesOnly}) => {
       setAvatar(avatarArray.pop().filename);
       setUserHasAvatar(true);
     } catch (error) {
-      console.log('user avatar fetch failed', error.message);
+      // console.log('user avatar fetch failed: comment', error.message);
     }
   };
 

@@ -3,9 +3,7 @@ import {StyleSheet, SafeAreaView} from 'react-native';
 import PropTypes from 'prop-types';
 import CommentList from '../components/CommentList';
 
-const Notifications = (navigation) => {
-  const {route} = navigation;
-
+const Notifications = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <CommentList route={route} navigation={navigation} myFilesOnly={true} />

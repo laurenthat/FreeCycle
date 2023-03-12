@@ -25,12 +25,11 @@ const ListItem = ({singleMedia, navigation, route}) => {
   const {user, update, setUpdate} = useContext(MainContext);
   const item = singleMedia;
   const [avatar, setAvatar] = useState('');
+  const [userHasAvatar, setUserHasAvatar] = useState(false);
   const [owner, setOwner] = useState({});
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [userLikesIt, setUserLikesIt] = useState(false);
-  const [userHasAvatar, setUserHasAvatar] = useState(false);
-
   const {deleteMedia} = useMedia();
   const {getFavouritesByFileId, postFavourite, deleteFavourite} =
     useFavourite();
@@ -41,7 +40,7 @@ const ListItem = ({singleMedia, navigation, route}) => {
   const routeName = route.name;
 
   const SubtitleContent = '@' + owner.username;
-  const LeftContent = (props) =>
+  const leftContent = () =>
     userHasAvatar ? (
       <Avatar.Image size={45} source={{uri: uploadsUrl + avatar}} />
     ) : (
@@ -108,7 +107,7 @@ const ListItem = ({singleMedia, navigation, route}) => {
       setAvatar(avatarArray.pop().filename);
       setUserHasAvatar(true);
     } catch (error) {
-      console.log('user avatar fetch failed', error.message);
+      // console.log('user avatar fetch failed: listitem', error.message);
     }
   };
 
@@ -161,10 +160,10 @@ const ListItem = ({singleMedia, navigation, route}) => {
 
   useEffect(() => {
     getOwner();
-    loadAvatar();
     getLikes();
     getComments();
-  }, [update]);
+    loadAvatar();
+  }, []);
 
   return (
     <Card
@@ -174,15 +173,19 @@ const ListItem = ({singleMedia, navigation, route}) => {
           : styles.card
       }
       mode="elevated"
-      onPress={() => {
-        navigation.navigate('Single', item);
-        console.log('item', item);
-      }}
+      onPress={
+        routeName !== 'Single'
+          ? () => {
+              navigation.navigate('Single', item);
+              console.log('item', item);
+            }
+          : null
+      }
     >
       <Card.Title
         title={item.title}
         subtitle={SubtitleContent}
-        left={LeftContent}
+        left={leftContent}
         right={rightContent}
       />
       <Card.Cover source={{uri: uploadsUrl + item.thumbnails?.w160}} />
