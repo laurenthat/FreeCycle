@@ -12,7 +12,7 @@ import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
 import Notifications from '../views/Notifications';
 import Search from '../views/Search';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {StyleSheet, Pressable} from 'react-native';
 import PropTypes from 'prop-types';
 import EditPost from '../views/EditPost';
 import EditProfile from '../views/EditProfile';
@@ -33,7 +33,7 @@ const LogoTitle = () => {
 };
 
 const CustomTabBarButton = ({onPress, children}) => (
-  <TouchableOpacity
+  <Pressable
     onPress={onPress}
     style={{
       top: -25,
@@ -54,7 +54,7 @@ const CustomTabBarButton = ({onPress, children}) => (
     >
       {children}
     </View>
-  </TouchableOpacity>
+  </Pressable>
 );
 
 const TabScreen = () => {

@@ -53,11 +53,12 @@ const List = ({
 
   useEffect(() => {
     getLikedPosts();
-  }, []);
+  }, [likes]);
 
   return (
     <FlatList
       data={newOnly ? mediaToShow().slice(0, 10) : mediaToShow()}
+      maxToRenderPerBatch={5}
       keyExtractor={(item, index) => index.toString()}
       showsHorizontalScrollIndicator={false}
       horizontal={horizontal}

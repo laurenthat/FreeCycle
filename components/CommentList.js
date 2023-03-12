@@ -122,7 +122,7 @@ const CommentList = ({route, myFilesOnly, navigation}) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [mediaArray]);
 
   return showComments();
 };
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
   },
   noCommentsText: {
     fontSize: 15,
+    color: '#fdaa5e',
   },
 });
 

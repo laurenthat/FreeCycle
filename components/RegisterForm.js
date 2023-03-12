@@ -1,8 +1,9 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Button, Input} from '@rneui/themed';
+import {Input} from '@rneui/themed';
 import {ScrollView} from 'react-native';
+import {Button, Card} from 'react-native-paper';
 
 const RegisterForm = (props) => {
   // const {setIsLoggedIn} = useContext(MainContext);
@@ -48,7 +49,7 @@ const RegisterForm = (props) => {
 
   return (
     <ScrollView>
-      <Card>
+      <Card style={{margin: 10}}>
         <Card.Title>Registration Form</Card.Title>
         <Controller
           control={control}
@@ -171,7 +172,20 @@ const RegisterForm = (props) => {
           )}
           name="full_name"
         />
-        <Button title="Register!" onPress={handleSubmit(register)} />
+        <Button
+          title="Register!"
+          onPress={handleSubmit(register)}
+          style={{
+            width: '90%',
+            marginBottom: '10%',
+            marginTop: '10%',
+            alignSelf: 'center',
+          }}
+          mode="contained"
+          buttonColor="#fdaa5e"
+        >
+          Register!
+        </Button>
       </Card>
     </ScrollView>
   );

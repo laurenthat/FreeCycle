@@ -4,7 +4,7 @@ import {
   Alert,
   Keyboard,
   ScrollView,
-  TouchableOpacity,
+  Pressable,
   View,
   StyleSheet,
 } from 'react-native';
@@ -58,7 +58,7 @@ const EditPost = ({navigation, route}) => {
 
   return (
     <ScrollView>
-      <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+      <Pressable onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         <View>
           {file.media_type === 'video' ? (
             <Video
@@ -149,7 +149,7 @@ const EditPost = ({navigation, route}) => {
             Edit advertisement
           </Button>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };

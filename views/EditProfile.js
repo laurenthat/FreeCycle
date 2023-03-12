@@ -1,7 +1,7 @@
 import {Card} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
+import {Alert, Keyboard, ScrollView, Pressable} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -71,7 +71,7 @@ const EditProfile = ({navigation}) => {
 
   return (
     <ScrollView>
-      <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+      <Pressable onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         <Card>
           <Controller
             control={control}
@@ -173,7 +173,7 @@ const EditProfile = ({navigation}) => {
             Save
           </Button>
         </Card>
-      </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Platform,
-  TouchableOpacity,
+  Pressable,
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
@@ -13,7 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import {Button, Text} from '@rneui/themed';
+import {Text} from '@rneui/themed';
+import {Button} from 'react-native-paper';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -41,7 +42,7 @@ const Login = ({navigation}) => {
 
   return (
     <ScrollView>
-      <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+      <Pressable onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
@@ -53,14 +54,17 @@ const Login = ({navigation}) => {
           </Text>
           <Button
             style={styles.button}
-            type="outline"
+            mode="contained"
+            buttonColor="#fdaa5e"
             title={toggleForm ? 'Register' : 'Login'}
             onPress={() => {
               setToggleForm(!toggleForm);
             }}
-          />
+          >
+            {toggleForm ? 'Register' : 'Login'}
+          </Button>
         </KeyboardAvoidingView>
-      </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };
@@ -71,8 +75,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginVertical: 10,
-    marginHorizontal: 30,
+    width: '90%',
+    marginBottom: '10%',
+    marginTop: '10%',
+    alignSelf: 'center',
   },
 });
 

@@ -3,7 +3,8 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Input, Card} from '@rneui/themed';
+import {Input} from '@rneui/themed';
+import {Button, Card} from 'react-native-paper';
 
 const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -32,7 +33,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Card>
+    <Card style={{margin: 10}}>
       <Card.Title>Login Form</Card.Title>
       <Controller
         control={control}
@@ -70,7 +71,20 @@ const LoginForm = () => {
         )}
         name="password"
       />
-      <Button title="Log in!" onPress={handleSubmit(logIn)} />
+      <Button
+        title="Log in!"
+        style={{
+          width: '90%',
+          marginBottom: '10%',
+          marginTop: '10%',
+          alignSelf: 'center',
+        }}
+        mode="contained"
+        buttonColor="#fdaa5e"
+        onPress={handleSubmit(logIn)}
+      >
+        Login
+      </Button>
     </Card>
   );
 };

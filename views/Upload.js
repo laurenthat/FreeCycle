@@ -2,13 +2,7 @@ import {TextInput, Button} from 'react-native-paper';
 import {Avatar, Accessory} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {
-  Alert,
-  Keyboard,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, Keyboard, ScrollView, Pressable, View} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -113,7 +107,7 @@ const Upload = ({navigation}) => {
 
   return (
     <ScrollView>
-      <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
+      <Pressable onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         <View
           style={{
             display: 'flex',
@@ -230,7 +224,7 @@ const Upload = ({navigation}) => {
             Upload advertisment
           </Button>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };
