@@ -32,3 +32,8 @@ Front-end: React Native
 - changed design on both login and register views
 - improved overall responsiveness of the application
 
+<a href="https://github.com/laurenthat/FreeCycle/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=laurenthat/FreeCycle" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
